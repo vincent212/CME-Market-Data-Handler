@@ -1,0 +1,6 @@
+Source compiles with GCC 8.5.0
+
+compile using this command:
+
+g++ main.cpp -O0 -g -pthread -o test
+
