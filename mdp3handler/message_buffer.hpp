@@ -40,7 +40,7 @@ https://opensource.org/licenses/MIT
 
 #include <array>
 
-namespace mdp3
+namespace m2tech::mdp3
 {
     // maximum size of udp message is 65507
     constexpr size_t msgsz = 66000;

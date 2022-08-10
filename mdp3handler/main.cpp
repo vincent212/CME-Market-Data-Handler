@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
   constexpr auto port_ir = 6344;
   constexpr auto mdinterface = "10.248.146.89";
 
-  mdp3::MessageProcessor msg_proc(
+  m2tech::mdp3::MessageProcessor msg_proc(
       &callback_impl,
       port_a,
       port_b,
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       true,
       true);
 
-  mdp3::RecoveryProcessor rec_proc(
+  m2tech::mdp3::RecoveryProcessor rec_proc(
     &msg_proc,
     &callback_impl,
     port_dr,

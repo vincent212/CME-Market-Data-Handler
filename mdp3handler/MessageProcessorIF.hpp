@@ -38,7 +38,7 @@ https://opensource.org/licenses/MIT
 
 #pragma once
 
-namespace mdp3
+namespace m2tech::mdp3
 {
 
   struct MessageProcessorIF

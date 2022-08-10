@@ -44,7 +44,7 @@ https://opensource.org/licenses/MIT
 #include <map>
 #include <chrono>
 
-namespace mdp3
+namespace m2tech::mdp3
 {
 
     struct feed_handler_if

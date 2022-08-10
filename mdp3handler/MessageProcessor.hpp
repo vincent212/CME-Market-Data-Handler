@@ -47,7 +47,7 @@ https://opensource.org/licenses/MIT
 #include "MessageProcessorIF.hpp"
 #include "mbo_if.hpp"
 
-namespace mdp3
+namespace m2tech::mdp3
 {
 
     class MessageProcessor : public MessageProcessorIF
@@ -80,7 +80,7 @@ namespace mdp3
         message_buffer *read_a(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_a, &m->message[0], mdp3::msgsz, addr_a, addrlen_a);
+            auto nrec = mcast::receive(sock_a, &m->message[0], m2tech::mdp3::msgsz, addr_a, addrlen_a);
             if (nrec == 0)
             {
                 delete m;
@@ -95,7 +95,7 @@ namespace mdp3
         message_buffer *read_b(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_b, &m->message[0], mdp3::msgsz, addr_b, addrlen_b);
+            auto nrec = mcast::receive(sock_b, &m->message[0], m2tech::mdp3::msgsz, addr_b, addrlen_b);
             if (nrec == 0)
             {
                 delete m;
@@ -129,7 +129,7 @@ namespace mdp3
         {
         }
 
-        void set_recovery_processor(mdp3::RecoveryProcessor *rec)
+        void set_recovery_processor(m2tech::mdp3::RecoveryProcessor *rec)
         {
             recovery_processor = rec;
         }

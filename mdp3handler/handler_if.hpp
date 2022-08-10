@@ -40,7 +40,7 @@ https://opensource.org/licenses/MIT
 
 #include "mbo_if.hpp"
 
-struct handler_if : public mdp3::feed_handler_if
+struct handler_if : public m2tech::mdp3::feed_handler_if
 {
 
   handler_if()

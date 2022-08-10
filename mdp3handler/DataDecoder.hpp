@@ -55,7 +55,7 @@ https://opensource.org/licenses/MIT
 #include "mktdata/AdminHeartbeat12.h"
 #include "mbo_if.hpp"
 
-namespace mdp3
+namespace m2tech::mdp3
 {
 
     struct DataDecoder

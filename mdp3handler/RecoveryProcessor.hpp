@@ -52,7 +52,7 @@ https://opensource.org/licenses/MIT
 #include "MessageProcessorIF.hpp"
 #include "unistd.h"
 
-namespace mdp3
+namespace m2tech::mdp3
 {
 
     class RecoveryProcessor
@@ -134,7 +134,7 @@ namespace mdp3
         message_buffer *read_dr() const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_dr, &m->message[0], mdp3::msgsz, addr_dr, addrlen_dr, true);
+            auto nrec = mcast::receive(sock_dr, &m->message[0], m2tech::mdp3::msgsz, addr_dr, addrlen_dr, true);
             if (nrec == 0)
             {
                 delete m;
@@ -149,7 +149,7 @@ namespace mdp3
         message_buffer *read_ir() const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_ir, &m->message[0], mdp3::msgsz, addr_ir, addrlen_ir, true);
+            auto nrec = mcast::receive(sock_ir, &m->message[0], m2tech::mdp3::msgsz, addr_ir, addrlen_ir, true);
             if (nrec == 0)
             {
                 delete m;
