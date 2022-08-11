@@ -48,7 +48,7 @@ https://opensource.org/licenses/MIT
 #include "mktdata/SnapshotFullRefresh52.h"
 #include "mktdata/MDInstrumentDefinitionFuture54.h"
 #include "message_buffer.hpp"
-#include "CallBackIF.hpp""
+#include "CallBackIF.hpp"
 #include "MessageProcessorIF.hpp"
 #include "unistd.h"
 
