@@ -48,7 +48,7 @@ https://opensource.org/licenses/MIT
 #include "mktdata/SnapshotFullRefresh52.h"
 #include "mktdata/MDInstrumentDefinitionFuture54.h"
 #include "message_buffer.hpp"
-#include "mbo_if.hpp"
+#include "CallBackIF.hpp""
 #include "MessageProcessorIF.hpp"
 #include "unistd.h"
 
@@ -61,7 +61,7 @@ namespace m2tech::mdp3
     public:
         RecoveryProcessor(
             MessageProcessorIF *_mp,
-            feed_handler_if *_cb,
+            CallBackIF *_cb,
             in_port_t _port_dr,
             in_port_t _port_ir,
             const char *_group_dr,
@@ -126,7 +126,7 @@ namespace m2tech::mdp3
         size_t addrlen_ir, addrlen_dr;
         std::string group_ir, group_dr, interface;
 
-        feed_handler_if *cb;
+        CallBackIF *cb;
 
         std::map<int32_t, std::string> securities;
         std::set<int32_t> recovered_books;
