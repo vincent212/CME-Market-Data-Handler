@@ -134,7 +134,7 @@ namespace m2tech::mdp3
         message_buffer *read_dr() const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_dr, &m->message[0], m2tech::mdp3::msgsz, addr_dr, addrlen_dr, true);
+            auto nrec = m2tech::mcast::receive(sock_dr, &m->message[0], m2tech::mdp3::msgsz, addr_dr, addrlen_dr, true);
             if (nrec == 0)
             {
                 delete m;
@@ -149,7 +149,7 @@ namespace m2tech::mdp3
         message_buffer *read_ir() const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_ir, &m->message[0], m2tech::mdp3::msgsz, addr_ir, addrlen_ir, true);
+            auto nrec = m2tech::mcast::receive(sock_ir, &m->message[0], m2tech::mdp3::msgsz, addr_ir, addrlen_ir, true);
             if (nrec == 0)
             {
                 delete m;
@@ -167,8 +167,8 @@ namespace m2tech::mdp3
             if (debug)
                 std::cout << "DataRecoveryStart\n";
 
-            mcast::create_udp_socket(port_dr, sock_dr, addr_dr, addrlen_dr);
-            mcast::join_group(sock_dr, group_dr.c_str(), interface.c_str());
+            m2tech::mcast::create_udp_socket(port_dr, sock_dr, addr_dr, addrlen_dr);
+            m2tech::mcast::join_group(sock_dr, group_dr.c_str(), interface.c_str());
 
             uint curr_seq_num = 0;
             bool found_first_packet = false;
@@ -387,8 +387,8 @@ namespace m2tech::mdp3
             if (debug)
                 std::cout << "InstrumentRecoveryStart\n";
 
-            mcast::create_udp_socket(port_ir, sock_ir, addr_ir, addrlen_ir);
-            mcast::join_group(sock_ir, group_ir.c_str(), interface.c_str());
+            m2tech::mcast::create_udp_socket(port_ir, sock_ir, addr_ir, addrlen_ir);
+            m2tech::mcast::join_group(sock_ir, group_ir.c_str(), interface.c_str());
 
             std::vector<std::string> chunks_processed;
             uint32_t totnumreports;

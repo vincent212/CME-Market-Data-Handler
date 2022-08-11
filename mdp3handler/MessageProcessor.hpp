@@ -72,15 +72,14 @@ namespace m2tech::mdp3
         bool have_instruments = false;
         bool recoveryonstart = false;
 
-        bool have_seq_num = false;
-        uint32_t seq_num = 0, qseq_num = 0;
+        uint32_t qseq_num = 0;
 
         bool shutdown = false;
 
         message_buffer *read_a(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_a, &m->message[0], m2tech::mdp3::msgsz, addr_a, addrlen_a);
+            auto nrec = m2tech::mcast::receive(sock_a, &m->message[0], m2tech::mdp3::msgsz, addr_a, addrlen_a);
             if (nrec == 0)
             {
                 delete m;
@@ -95,7 +94,7 @@ namespace m2tech::mdp3
         message_buffer *read_b(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
-            auto nrec = mcast::receive(sock_b, &m->message[0], m2tech::mdp3::msgsz, addr_b, addrlen_b);
+            auto nrec = m2tech::mcast::receive(sock_b, &m->message[0], m2tech::mdp3::msgsz, addr_b, addrlen_b);
             if (nrec == 0)
             {
                 delete m;
@@ -138,10 +137,10 @@ namespace m2tech::mdp3
         {
             // port a and b are mc ports
             // group a and b are mc groups
-            mcast::create_udp_socket(port_a, sock_a, addr_a, addrlen_a);
-            mcast::create_udp_socket(port_b, sock_b, addr_b, addrlen_b);
-            mcast::join_group(sock_a, group_a.c_str(), interface.c_str());
-            mcast::join_group(sock_b, group_b.c_str(), interface.c_str());
+            m2tech::mcast::create_udp_socket(port_a, sock_a, addr_a, addrlen_a);
+            m2tech::mcast::create_udp_socket(port_b, sock_b, addr_b, addrlen_b);
+            m2tech::mcast::join_group(sock_a, group_a.c_str(), interface.c_str());
+            m2tech::mcast::join_group(sock_b, group_b.c_str(), interface.c_str());
             shutdown = false;
         }
 
@@ -159,7 +158,19 @@ namespace m2tech::mdp3
             message_buffer *msg;
             uint32_t seq;
             bool have_msg = false;
-            auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+            //
+            // timestamp here if you want to include socket read time
+            //
+            //auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+            //
+            // TODO: reading A then B is not ideal
+            //
+
+            //
+            // TODO: message buffers should be memory pooled
+            //
 
             while (true)
             {
@@ -196,6 +207,12 @@ namespace m2tech::mdp3
                 else
                     break;
             }
+
+            //
+            // time stamp here to measure just the decode time
+            //
+
+            auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 
             if (have_msg)
                 processq(recv_ts);

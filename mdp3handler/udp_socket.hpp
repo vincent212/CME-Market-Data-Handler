@@ -48,7 +48,7 @@ https://opensource.org/licenses/MIT
 #include <errno.h>
 #include <stdlib.h>
 
-namespace mcast
+namespace m2tech::mcast
 {
 
    static void create_udp_socket(
