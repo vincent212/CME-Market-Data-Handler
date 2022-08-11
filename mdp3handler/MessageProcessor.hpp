@@ -45,7 +45,7 @@ https://opensource.org/licenses/MIT
 #include "DataDecoder.hpp"
 #include "RecoveryProcessor.hpp"
 #include "MessageProcessorIF.hpp"
-#include "mbo_if.hpp"
+#include "CallBackIF.hpp""
 
 namespace m2tech::mdp3
 {
@@ -109,7 +109,7 @@ namespace m2tech::mdp3
 
     public:
         MessageProcessor(
-            feed_handler_if *_cb,
+            CallBackIF *_cb,
             in_port_t _port_a,
             in_port_t _port_b,
             const char *_groupa,

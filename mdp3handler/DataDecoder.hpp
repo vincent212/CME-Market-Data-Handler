@@ -53,7 +53,7 @@ https://opensource.org/licenses/MIT
 #include "mktdata/SecurityStatus30.h"
 #include "mktdata/QuoteRequest39.h"
 #include "mktdata/AdminHeartbeat12.h"
-#include "mbo_if.hpp"
+#include "CallBackIF.hpp"
 
 namespace m2tech::mdp3
 {
@@ -71,10 +71,10 @@ namespace m2tech::mdp3
         } repg1_t;
 
         std::vector<repg1_t> g1;
-        feed_handler_if *cb;
+        CallBackIF *cb;
         bool debug = false;
 
-        DataDecoder(feed_handler_if *_cb, bool _debug) : cb(_cb), debug(_debug)
+        DataDecoder(CallBackIF *_cb, bool _debug) : cb(_cb), debug(_debug)
         {
             g1.reserve(1024);
         }

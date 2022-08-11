@@ -39,14 +39,14 @@ https://opensource.org/licenses/MIT
 
 #include "MessageProcessor.hpp"
 #include "RecoveryProcessor.hpp"
-#include "handler_if.hpp"
+#include "CallBackImpl.hpp""
 
 #include <thread>
 
 int main(int argc, char *argv[])
 {
 
-  handler_if callback_impl;
+  CallBackImpl callback_impl;
 
   constexpr auto group_a = "233.158.8.17";
   constexpr auto port_a = 14344;
