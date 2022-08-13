@@ -54,7 +54,7 @@ namespace m2tech::mdp3
 
     private:
 
-        RecoveryProcessor *recovery_processor;
+        RecoveryProcessor<MessageProcessor> *recovery_processor;
         DataDecoder decoder;
         std::map<uint32_t, message_buffer *> msg_q;
 
