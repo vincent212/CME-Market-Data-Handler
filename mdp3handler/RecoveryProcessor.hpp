@@ -54,7 +54,7 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mdp3
 {
 
-    template<typename MP>
+    template <typename MP>
     class RecoveryProcessor
     {
 

@@ -51,7 +51,7 @@ namespace m2tech::mdp3
     {
 
         virtual void MDIncrementalRefreshBook(
-            uint64_t recv_time, 
+            uint64_t recv_time,
             uint32_t msgSeqNum,
             uint64_t transactTime,
             uint64_t sendingTime,
@@ -67,7 +67,7 @@ namespace m2tech::mdp3
             bool recovery) noexcept = 0;
 
         virtual void MDIncrementalRefreshTradeSummary(
-            uint64_t recv_time, 
+            uint64_t recv_time,
             uint32_t msgSeqNum,
             uint64_t transactTime,
             uint64_t sendingTime,
@@ -157,8 +157,7 @@ namespace m2tech::mdp3
             int32_t securityID,
             int32_t volume,
             char typ,
-            uint8_t action
-        ) noexcept = 0;
+            uint8_t action) noexcept = 0;
 
         virtual void Clear() noexcept = 0;
 

@@ -36,7 +36,6 @@ https://opensource.org/licenses/MIT
 
 */
 
-
 #include "MessageProcessor.hpp"
 #include "RecoveryProcessor.hpp"
 #include "CallBackImpl.hpp"
@@ -70,15 +69,14 @@ int main(int argc, char *argv[])
       true);
 
   m2tech::mdp3::RecoveryProcessor<m2tech::mdp3::MessageProcessor> rec_proc(
-    &msg_proc,
-    &callback_impl,
-    port_dr,
-    port_ir,
-    group_dr,
-    group_ir,
-    mdinterface,
-    true
-  );
+      &msg_proc,
+      &callback_impl,
+      port_dr,
+      port_ir,
+      group_dr,
+      group_ir,
+      mdinterface,
+      true);
 
   msg_proc.set_recovery_processor(&rec_proc);
   msg_proc.connect();
@@ -88,6 +86,4 @@ int main(int argc, char *argv[])
 
   msg_thread.join();
   rec_thread.join();
-
-
 }

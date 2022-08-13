@@ -43,138 +43,136 @@ https://opensource.org/licenses/MIT
 struct CallBackImpl : public m2tech::mdp3::CallBackIF
 {
 
-  CallBackImpl()
-  {
-  }
+    CallBackImpl()
+    {
+    }
 
-  void MDIncrementalRefreshBook(
-      uint64_t recv_time,
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      uint32_t securityID,
-      int64_t px_mantissa,
-      int8_t px_exponent,
-      char side, // 0 = buy, 1 = sell
-      int32_t displayQty,
-      uint64_t orderID,
-      uint8_t orderUpdateAction,
-      uint64_t priority,
-      bool endOfEvent,
-      bool recovery) noexcept override
-  {
-  }
+    void MDIncrementalRefreshBook(
+        uint64_t recv_time,
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        uint32_t securityID,
+        int64_t px_mantissa,
+        int8_t px_exponent,
+        char side, // 0 = buy, 1 = sell
+        int32_t displayQty,
+        uint64_t orderID,
+        uint8_t orderUpdateAction,
+        uint64_t priority,
+        bool endOfEvent,
+        bool recovery) noexcept override
+    {
+    }
 
-  virtual void MDIncrementalRefreshTradeSummary(
-      uint64_t recv_time,
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      int32_t lastQty,
-      uint64_t orderID,
-      int32_t securityID,
-      bool lastTrade,
-      bool eoe) noexcept
-  {
-  }
+    virtual void MDIncrementalRefreshTradeSummary(
+        uint64_t recv_time,
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t lastQty,
+        uint64_t orderID,
+        int32_t securityID,
+        bool lastTrade,
+        bool eoe) noexcept
+    {
+    }
 
-  virtual void MDIncrementalRefreshSessionStatistics(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      uint32_t secid,
-      uint8_t openCloseSettleFlag,
-      int64_t px_mantissa,
-      int64_t px_exponent,
-      uint8_t updateAction,
-      char entryType) noexcept override
-  {
-  }
+    virtual void MDIncrementalRefreshSessionStatistics(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        uint32_t secid,
+        uint8_t openCloseSettleFlag,
+        int64_t px_mantissa,
+        int64_t px_exponent,
+        uint8_t updateAction,
+        char entryType) noexcept override
+    {
+    }
 
-  virtual void MDInstrumentDefinitionFuture(
-      uint32_t msgSeqNum,
-      uint64_t sendingTime,
-      char *sym,
-      char *asset,
-      char *cfiCode,
-      int64_t high_limit_px_mantissa,
-      int8_t high_limit_px_exponent,
-      int64_t low_limit_px_mantissa,
-      int8_t low_limit_px_exponent,
-      int64_t pxvar_mantissa,
-      int8_t pxvar_exponent,
-      int32_t sec_id,
-      char updateAction,
-      uint8_t tradingStatus,
-      uint64_t activation,
-      uint64_t expiration,
-      char *sec_group,
-      uint8_t seg_id) noexcept override {}
+    virtual void MDInstrumentDefinitionFuture(
+        uint32_t msgSeqNum,
+        uint64_t sendingTime,
+        char *sym,
+        char *asset,
+        char *cfiCode,
+        int64_t high_limit_px_mantissa,
+        int8_t high_limit_px_exponent,
+        int64_t low_limit_px_mantissa,
+        int8_t low_limit_px_exponent,
+        int64_t pxvar_mantissa,
+        int8_t pxvar_exponent,
+        int32_t sec_id,
+        char updateAction,
+        uint8_t tradingStatus,
+        uint64_t activation,
+        uint64_t expiration,
+        char *sec_group,
+        uint8_t seg_id) noexcept override {}
 
-  virtual void SnapshotFullRefreshOrderBook(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      uint32_t currentChunk,
-      uint32_t numChunks,
-      int32_t securityID,
-      int32_t displayQty,
-      int64_t px_mantissa,
-      int64_t px_exponent,
-      char side,
-      uint64_t orderPriority,
-      uint64_t orderID) noexcept override
-  {
-  }
+    virtual void SnapshotFullRefreshOrderBook(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        uint32_t currentChunk,
+        uint32_t numChunks,
+        int32_t securityID,
+        int32_t displayQty,
+        int64_t px_mantissa,
+        int64_t px_exponent,
+        char side,
+        uint64_t orderPriority,
+        uint64_t orderID) noexcept override
+    {
+    }
 
-  virtual void MDIncrementalRefreshLimitsBanding(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      int32_t securityID,
-      int64_t pxh_mantissa,
-      int8_t pxh_exponent,
-      int64_t pxl_mantissa,
-      int8_t pxl_exponent,
-      int64_t pxvar_mantissa,
-      int8_t pxvar_exponent,
-      const char *entryType) noexcept override
-  {
-  }
+    virtual void MDIncrementalRefreshLimitsBanding(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t securityID,
+        int64_t pxh_mantissa,
+        int8_t pxh_exponent,
+        int64_t pxl_mantissa,
+        int8_t pxl_exponent,
+        int64_t pxvar_mantissa,
+        int8_t pxvar_exponent,
+        const char *entryType) noexcept override
+    {
+    }
 
-  virtual void SecurityStatus(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      int32_t securityID,
-      uint8_t haltReason,
-      uint8_t tradingStatus,
-      uint8_t tradingEvent) noexcept override
-  {
-  }
+    virtual void SecurityStatus(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t securityID,
+        uint8_t haltReason,
+        uint8_t tradingStatus,
+        uint8_t tradingEvent) noexcept override
+    {
+    }
 
-  virtual void Clear() noexcept override
-  {
-  }
+    virtual void Clear() noexcept override
+    {
+    }
 
-  virtual void ChannelReset(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      const char *mdEntryType) noexcept override
-  {
-  }
+    virtual void ChannelReset(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        const char *mdEntryType) noexcept override
+    {
+    }
 
-  virtual void MDIncrementalRefreshVolume(
-      uint32_t msgSeqNum,
-      uint64_t transactTime,
-      uint64_t sendingTime,
-      int32_t securityID,
-      int32_t volume,
-      char typ,
-      uint8_t action) noexcept override
-  {
-  }
-
-
+    virtual void MDIncrementalRefreshVolume(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t securityID,
+        int32_t volume,
+        char typ,
+        uint8_t action) noexcept override
+    {
+    }
 };

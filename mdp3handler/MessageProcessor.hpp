@@ -53,7 +53,6 @@ namespace m2tech::mdp3
     {
 
     private:
-
         RecoveryProcessor<MessageProcessor> *recovery_processor;
         DataDecoder decoder;
         std::map<uint32_t, message_buffer *> msg_q;
@@ -149,8 +148,7 @@ namespace m2tech::mdp3
                 read_sockets();
         }
 
-        private:
-
+    private:
         void read_sockets() noexcept
         {
 
@@ -161,7 +159,7 @@ namespace m2tech::mdp3
             //
             // timestamp here if you want to include socket read time
             //
-            //auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            // auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 
             //
             // TODO: reading A then B is not ideal
