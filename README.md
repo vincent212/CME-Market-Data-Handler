@@ -13,7 +13,7 @@ mayeski@gmail.com
 https://www.linkedin.com/in/vmayeski/
 http://m2te.ch/
 
-Released uder the MIT license.
+Released under the MIT license.
 
 A bit more information on the handler is found on my blog:
 http://maye.ski/
