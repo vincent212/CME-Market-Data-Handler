@@ -17,3 +17,5 @@ Released under the MIT license.
 
 A bit more information on the handler is found on my blog:
 http://maye.ski/
+
+Feel free to get in touch!
