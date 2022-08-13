@@ -127,7 +127,7 @@ namespace m2tech::mdp3
         {
         }
 
-        void set_recovery_processor(m2tech::mdp3::RecoveryProcessor *rec)
+        void set_recovery_processor(m2tech::mdp3::RecoveryProcessor<MessageProcessor> *rec)
         {
             recovery_processor = rec;
         }
