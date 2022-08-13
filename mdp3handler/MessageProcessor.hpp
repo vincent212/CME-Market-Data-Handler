@@ -274,7 +274,7 @@ namespace m2tech::mdp3
         }
 
     public:
-        void datarecoveryend(uint32_t last_seq) noexcept override
+        void datarecoveryend(uint32_t last_seq) noexcept
         {
             std::cout << "RECOVERY DONE\n";
             qseq_num = last_seq;
