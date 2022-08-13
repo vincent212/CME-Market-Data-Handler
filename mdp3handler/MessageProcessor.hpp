@@ -44,13 +44,12 @@ https://opensource.org/licenses/MIT
 #include "message_buffer.hpp"
 #include "DataDecoder.hpp"
 #include "RecoveryProcessor.hpp"
-#include "MessageProcessorIF.hpp"
 #include "CallBackIF.hpp"
 
 namespace m2tech::mdp3
 {
 
-    class MessageProcessor : public MessageProcessorIF
+    class MessageProcessor
     {
 
     private:

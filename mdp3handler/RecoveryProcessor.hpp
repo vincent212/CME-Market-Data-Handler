@@ -49,18 +49,18 @@ https://opensource.org/licenses/MIT
 #include "mktdata/MDInstrumentDefinitionFuture54.h"
 #include "message_buffer.hpp"
 #include "CallBackIF.hpp"
-#include "MessageProcessorIF.hpp"
 #include "unistd.h"
 
 namespace m2tech::mdp3
 {
 
+    template<typename MP>
     class RecoveryProcessor
     {
 
     public:
         RecoveryProcessor(
-            MessageProcessorIF *_mp,
+            MP *_mp,
             CallBackIF *_cb,
             in_port_t _port_dr,
             in_port_t _port_ir,
@@ -92,6 +92,7 @@ namespace m2tech::mdp3
             cv.wait(lk);
             if (shutdown)
                 return;
+            cb->Clear();
             if (recover_instruments)
                 instrumentrecovery();
             auto last = datarecovery();
@@ -117,7 +118,7 @@ namespace m2tech::mdp3
 
         bool shutdown = false;
 
-        MessageProcessorIF *mp;
+        MP *mp;
         bool recover_instruments = false;
         bool debug;
         in_port_t port_ir, port_dr;
@@ -218,7 +219,6 @@ namespace m2tech::mdp3
                     curr_seq_num = 0;
                     found_first_packet = false;
                     numreports = std::numeric_limits<uint32_t>::max();
-                    cb->Clear();
                     goto read_next_packet;
                 }
 

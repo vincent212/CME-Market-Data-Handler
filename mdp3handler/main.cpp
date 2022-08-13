@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       true,
       true);
 
-  m2tech::mdp3::RecoveryProcessor rec_proc(
+  m2tech::mdp3::RecoveryProcessor<m2tech::mdp3::MessageProcessor> rec_proc(
     &msg_proc,
     &callback_impl,
     port_dr,
