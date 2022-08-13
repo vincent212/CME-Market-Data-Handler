@@ -109,7 +109,9 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
         uint64_t activation,
         uint64_t expiration,
         char *sec_group,
-        uint8_t seg_id) noexcept override {}
+        uint8_t seg_id) noexcept override
+    {
+    }
 
     virtual void SnapshotFullRefreshOrderBook(
         uint32_t msgSeqNum,
