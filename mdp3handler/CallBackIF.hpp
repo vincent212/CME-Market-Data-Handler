@@ -47,6 +47,13 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mdp3
 {
 
+    /**
+     * @brief Callback interface from handler to application.
+     * 
+     * The application must subclass this class and provide implementation for each callback.
+     * For documentation of each message please the CME group website.
+     * https://www.cmegroup.com/confluence/display/EPICSANDBOX/MDP+3.0+-+Market+Data+Incremental+Refresh
+     */
     struct CallBackIF
     {
 
@@ -159,8 +166,19 @@ namespace m2tech::mdp3
             char typ,
             uint8_t action) noexcept = 0;
 
+        /**
+         * @brief A call to this function indicates that a gap was detected
+         * 
+         */
         virtual void Clear() noexcept = 0;
 
+        /**
+         * @brief Convert CME price to a double
+         * 
+         * @param mantissa 
+         * @param exponent 
+         * @return double 
+         */
         double to_price(int64_t mantissa, int8_t exponent)
         {
             return double(mantissa) * std::pow(10., double(exponent));

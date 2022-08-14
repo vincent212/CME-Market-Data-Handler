@@ -54,11 +54,42 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mdp3
 {
 
+    /**
+     * @brief Recover from gaps or on join
+     * 
+     * @tparam MP MessageProcessor
+     */
     template <typename MP>
-    class RecoveryProcessor
+    struct RecoveryProcessor
     {
 
-    public:
+        std::mutex m;
+        std::condition_variable cv;
+        bool shutdown = false;
+        MP *mp;
+        bool recover_instruments = false;
+        bool debug;
+        in_port_t port_ir, port_dr;
+        int sock_ir, sock_dr;
+        struct sockaddr_in addr_ir, addr_dr;
+        size_t addrlen_ir, addrlen_dr;
+        std::string group_ir, group_dr, interface;
+        CallBackIF *cb;
+        std::map<int32_t, std::string> securities;
+        std::set<int32_t> recovered_books;
+
+        /**
+         * @brief Construct a new Recovery Processor object
+         * 
+         * @param _mp the MessageProcessor
+         * @param _cb callback object implementing application logic
+         * @param _port_dr 
+         * @param _port_ir 
+         * @param _group_dr 
+         * @param _group_ir 
+         * @param _interface interface we are listening on
+         * @param _debug print all messages
+         */
         RecoveryProcessor(
             MP *_mp,
             CallBackIF *_cb,
@@ -79,6 +110,11 @@ namespace m2tech::mdp3
         {
         }
 
+        /**
+         * @brief Notify this thread that a recovery should start.
+         * 
+         * @param _recover_instruments 
+         */
         void do_recovery(bool _recover_instruments)
         {
             std::lock_guard<std::mutex> lk(m);
@@ -86,6 +122,10 @@ namespace m2tech::mdp3
             cv.notify_one();
         }
 
+        /**
+         * @brief Wait for cond var and run instrument and data recovery
+         * 
+         */
         void run_recovery() noexcept
         {
             std::unique_lock<std::mutex> lk(m);
@@ -99,12 +139,20 @@ namespace m2tech::mdp3
             mp->datarecoveryend(last);
         }
 
+        /**
+         * @brief Thread
+         * 
+         */
         void operator()()
         {
             while (!shutdown)
                 run_recovery();
         }
 
+        /**
+         * @brief Stop the thread
+         * 
+         */
         void end()
         {
             std::lock_guard<std::mutex> lk(m);
@@ -112,26 +160,11 @@ namespace m2tech::mdp3
             cv.notify_one();
         }
 
-    private:
-        std::mutex m;
-        std::condition_variable cv;
-
-        bool shutdown = false;
-
-        MP *mp;
-        bool recover_instruments = false;
-        bool debug;
-        in_port_t port_ir, port_dr;
-        int sock_ir, sock_dr;
-        struct sockaddr_in addr_ir, addr_dr;
-        size_t addrlen_ir, addrlen_dr;
-        std::string group_ir, group_dr, interface;
-
-        CallBackIF *cb;
-
-        std::map<int32_t, std::string> securities;
-        std::set<int32_t> recovered_books;
-
+        /**
+         * @brief Read from data recovery multicast port
+         * 
+         * @return message_buffer* 
+         */
         message_buffer *read_dr() const noexcept
         {
             auto m = new message_buffer();
@@ -147,6 +180,11 @@ namespace m2tech::mdp3
             return m;
         }
 
+        /**
+         * @brief Read from instrument recovery multicast port
+         * 
+         * @return message_buffer* 
+         */
         message_buffer *read_ir() const noexcept
         {
             auto m = new message_buffer();
@@ -162,6 +200,11 @@ namespace m2tech::mdp3
             return m;
         }
 
+        /**
+         * @brief Do data recovery
+         * 
+         * @return uint32_t last sequence number recovered
+         */
         uint32_t datarecovery() noexcept
         {
 
@@ -226,9 +269,7 @@ namespace m2tech::mdp3
                     std::cout << "processing packet: " << MsgSeqNum << " numreports: " << numreports << std::endl;
 
                 curr_seq_num = MsgSeqNum;
-
                 databuf += sizeof(MsgSeqNum);
-
                 auto SendingTime = *(uint64_t *)(databuf);
                 databuf += sizeof(SendingTime);
 
@@ -237,19 +278,14 @@ namespace m2tech::mdp3
 
                     auto MsgSize = *(uint16_t *)(databuf);
                     databuf += sizeof(MsgSize);
-
                     auto BlockLength = *(uint16_t *)(databuf);
                     databuf += sizeof(BlockLength);
-
                     auto template_id = *(uint16_t *)(databuf);
                     databuf += sizeof(template_id);
-
                     auto SchemaID = *(uint16_t *)(databuf);
                     databuf += sizeof(SchemaID);
-
                     auto Version = *(uint16_t *)(databuf);
                     databuf += sizeof(Version);
-
                     databuf -= sbe_message_header_size;
 
                     if (debug)
@@ -381,6 +417,10 @@ namespace m2tech::mdp3
             return last_seq_num;
         }
 
+        /**
+         * @brief Do instrument recovery
+         * 
+         */
         void instrumentrecovery() noexcept
         {
 

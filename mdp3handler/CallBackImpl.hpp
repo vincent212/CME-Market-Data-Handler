@@ -40,6 +40,10 @@ https://opensource.org/licenses/MIT
 
 #include "CallBackIF.hpp"
 
+/**
+ * @brief Application must fill in the blanks 
+ * 
+ */
 struct CallBackImpl : public m2tech::mdp3::CallBackIF
 {
 

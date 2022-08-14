@@ -1,0 +1,287 @@
+\hypertarget{_message_processor_8hpp_source}{}\doxysection{Message\+Processor.\+hpp}
+\mbox{\hyperlink{_message_processor_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{}}
+\DoxyCodeLine{3 \textcolor{comment}{THIS SOFTWARE IS OPEN SOURCE UNDER THE MIT LICENSE}}
+\DoxyCodeLine{4 \textcolor{comment}{SUPPORT IS AVAILABE FROM THE AUTHORS}}
+\DoxyCodeLine{5 \textcolor{comment}{}}
+\DoxyCodeLine{6 \textcolor{comment}{Copyright 2022 Vincent Maciejewski, Quant Enterprises \& M2 Tech}}
+\DoxyCodeLine{7 \textcolor{comment}{Contact:}}
+\DoxyCodeLine{8 \textcolor{comment}{v@m2te.ch}}
+\DoxyCodeLine{9 \textcolor{comment}{mayeski@gmail.com}}
+\DoxyCodeLine{10 \textcolor{comment}{https://www.linkedin.com/in/vmayeski/}}
+\DoxyCodeLine{11 \textcolor{comment}{http://m2te.ch/}}
+\DoxyCodeLine{12 \textcolor{comment}{}}
+\DoxyCodeLine{13 \textcolor{comment}{}}
+\DoxyCodeLine{14 \textcolor{comment}{Permission is hereby granted, free of charge, to any person}}
+\DoxyCodeLine{15 \textcolor{comment}{obtaining a copy of this software and associated documentation}}
+\DoxyCodeLine{16 \textcolor{comment}{files (the "{}Software"{}), to deal in the Software without}}
+\DoxyCodeLine{17 \textcolor{comment}{restriction, including without limitation the rights to use,}}
+\DoxyCodeLine{18 \textcolor{comment}{copy, modify, merge, publish, distribute, sublicense, and/or sell}}
+\DoxyCodeLine{19 \textcolor{comment}{copies of the Software, and to permit persons to whom the}}
+\DoxyCodeLine{20 \textcolor{comment}{Software is furnished to do so, subject to the following}}
+\DoxyCodeLine{21 \textcolor{comment}{conditions:}}
+\DoxyCodeLine{22 \textcolor{comment}{}}
+\DoxyCodeLine{23 \textcolor{comment}{The above copyright notice and this permission notice shall be}}
+\DoxyCodeLine{24 \textcolor{comment}{included in all copies or substantial portions of the Software.}}
+\DoxyCodeLine{25 \textcolor{comment}{}}
+\DoxyCodeLine{26 \textcolor{comment}{THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND,}}
+\DoxyCodeLine{27 \textcolor{comment}{EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES}}
+\DoxyCodeLine{28 \textcolor{comment}{OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND}}
+\DoxyCodeLine{29 \textcolor{comment}{NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT}}
+\DoxyCodeLine{30 \textcolor{comment}{HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,}}
+\DoxyCodeLine{31 \textcolor{comment}{WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING}}
+\DoxyCodeLine{32 \textcolor{comment}{FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR}}
+\DoxyCodeLine{33 \textcolor{comment}{OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{34 \textcolor{comment}{}}
+\DoxyCodeLine{35 \textcolor{comment}{https://opensource.org/licenses/MIT}}
+\DoxyCodeLine{36 \textcolor{comment}{}}
+\DoxyCodeLine{37 \textcolor{comment}{*/}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{udp__socket_8hpp}{udp\_socket.hpp}}"{}}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{message__buffer_8hpp}{message\_buffer.hpp}}"{}}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_data_decoder_8hpp}{DataDecoder.hpp}}"{}}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_recovery_processor_8hpp}{RecoveryProcessor.hpp}}"{}}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_call_back_i_f_8hpp}{CallBackIF.hpp}}"{}}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacem2tech_1_1mdp3}{m2tech::mdp3}}}
+\DoxyCodeLine{50 \{}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{56     \textcolor{keyword}{struct }\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor}{MessageProcessor}}}
+\DoxyCodeLine{57     \{}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{RecoveryProcessor<MessageProcessor>}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acc8dcb605fdc1078740326c861c7b5c0}{recovery\_processor}};}
+\DoxyCodeLine{60         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_data_decoder}{DataDecoder}} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a3c156fae061920eb638f458e777d0089}{decoder}};}
+\DoxyCodeLine{61         std::map<uint32\_t, message\_buffer *> \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}};}
+\DoxyCodeLine{62         in\_port\_t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aacfd10e42ac8fa2c5358c6f42b0b40c9}{port\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aba4741b26d6c220558d2ff0fe4ee6a6d}{port\_b}};}
+\DoxyCodeLine{63         \textcolor{keywordtype}{int} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff16296fb0a55f1d799818d334f73698}{sock\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa609c0cb943bcc01bbee609e7672b7a2}{sock\_b}};}
+\DoxyCodeLine{64         \textcolor{keyword}{struct }sockaddr\_in \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff1289c2f62eccec9e189de5997fdf17}{addr\_a}};}
+\DoxyCodeLine{65         \textcolor{keyword}{struct }sockaddr\_in \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a814dc3b2552aa336414d1d2d39983556}{addr\_b}};}
+\DoxyCodeLine{66         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a1e8fc78b708e9dab77d19af7f559ff6a}{addrlen\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a702bc4e8f45bda64f8a24c0355ec52a3}{addrlen\_b}};}
+\DoxyCodeLine{67         std::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a027ca5a5a8c180b0965ca09b1bc045f4}{group\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa35f36e8b53bb77d71d5e083470eb635}{group\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a152301b95bf27141e7604b65a01c0278}{interface}};}
+\DoxyCodeLine{68         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af23fe9c3e4c575f2dea22d12ec894d27}{dorecovery}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{69         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a4aa53c22a760f5cb62d9b56d5c70cfc9}{in\_recovery}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{70         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acb7b3ce5753125d3769aed1c94ee07d4}{have\_instruments}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{71         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a6d78036405df7bf71bbba68cc6210d44}{recoveryonstart}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{72         uint32\_t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} = 0;}
+\DoxyCodeLine{73         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af5f33a171ae57f930a2eb75a91aa4547}{shutdown}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{81         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a0064ced332ce4a51ed8e1182861afe13}{read\_a}}(uint32\_t \&seq\_num) \textcolor{keyword}{const} \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{82         \{}
+\DoxyCodeLine{83             \textcolor{keyword}{auto} m = \textcolor{keyword}{new} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}}();}
+\DoxyCodeLine{84             \textcolor{keyword}{auto} nrec = m2tech::mcast::receive(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff16296fb0a55f1d799818d334f73698}{sock\_a}}, \&m-\/>message[0], \mbox{\hyperlink{namespacem2tech_1_1mdp3_a8dc1ab9753e2d5ef65fd97e942579b2a}{m2tech::mdp3::msgsz}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff1289c2f62eccec9e189de5997fdf17}{addr\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a1e8fc78b708e9dab77d19af7f559ff6a}{addrlen\_a}});}
+\DoxyCodeLine{85             \textcolor{keywordflow}{if} (nrec == 0)}
+\DoxyCodeLine{86             \{}
+\DoxyCodeLine{87                 \textcolor{keyword}{delete} m;}
+\DoxyCodeLine{88                 \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{89             \}}
+\DoxyCodeLine{90             m-\/>len = nrec;}
+\DoxyCodeLine{91             seq\_num = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *)(\&m-\/>message[0]);}
+\DoxyCodeLine{92             m-\/>seqnum = seq\_num;}
+\DoxyCodeLine{93             \textcolor{keywordflow}{return} m;}
+\DoxyCodeLine{94         \}}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{102         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a569e2dafb17d1f908164a4c2ad107c80}{read\_b}}(uint32\_t \&seq\_num) \textcolor{keyword}{const} \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{103         \{}
+\DoxyCodeLine{104             \textcolor{keyword}{auto} m = \textcolor{keyword}{new} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}}();}
+\DoxyCodeLine{105             \textcolor{keyword}{auto} nrec = m2tech::mcast::receive(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa609c0cb943bcc01bbee609e7672b7a2}{sock\_b}}, \&m-\/>message[0], \mbox{\hyperlink{namespacem2tech_1_1mdp3_a8dc1ab9753e2d5ef65fd97e942579b2a}{m2tech::mdp3::msgsz}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a814dc3b2552aa336414d1d2d39983556}{addr\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a702bc4e8f45bda64f8a24c0355ec52a3}{addrlen\_b}});}
+\DoxyCodeLine{106             \textcolor{keywordflow}{if} (nrec == 0)}
+\DoxyCodeLine{107             \{}
+\DoxyCodeLine{108                 \textcolor{keyword}{delete} m;}
+\DoxyCodeLine{109                 \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{110             \}}
+\DoxyCodeLine{111             m-\/>len = nrec;}
+\DoxyCodeLine{112             seq\_num = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *)(\&m-\/>message[0]);}
+\DoxyCodeLine{113             m-\/>seqnum = seq\_num;}
+\DoxyCodeLine{114             \textcolor{keywordflow}{return} m;}
+\DoxyCodeLine{115         \}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{130         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a91389770ab05d4615a70ee925604703d}{MessageProcessor}}(}
+\DoxyCodeLine{131             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{CallBackIF}} *\_cb,}
+\DoxyCodeLine{132             in\_port\_t \_port\_a,}
+\DoxyCodeLine{133             in\_port\_t \_port\_b,}
+\DoxyCodeLine{134             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_groupa,}
+\DoxyCodeLine{135             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_groupb,}
+\DoxyCodeLine{136             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_interface,}
+\DoxyCodeLine{137             \textcolor{keywordtype}{bool} \_dorecovery,}
+\DoxyCodeLine{138             \textcolor{keywordtype}{bool} \_recoveryonstart,}
+\DoxyCodeLine{139             \textcolor{keywordtype}{bool} \_debug)}
+\DoxyCodeLine{140             : \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a3c156fae061920eb638f458e777d0089}{decoder}}(\_cb, \_debug),}
+\DoxyCodeLine{141               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aacfd10e42ac8fa2c5358c6f42b0b40c9}{port\_a}}(\_port\_a),}
+\DoxyCodeLine{142               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aba4741b26d6c220558d2ff0fe4ee6a6d}{port\_b}}(\_port\_b),}
+\DoxyCodeLine{143               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a027ca5a5a8c180b0965ca09b1bc045f4}{group\_a}}(\_groupa),}
+\DoxyCodeLine{144               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa35f36e8b53bb77d71d5e083470eb635}{group\_b}}(\_groupb),}
+\DoxyCodeLine{145               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a152301b95bf27141e7604b65a01c0278}{interface}}(\_interface),}
+\DoxyCodeLine{146               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af23fe9c3e4c575f2dea22d12ec894d27}{dorecovery}}(\_dorecovery),}
+\DoxyCodeLine{147               \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a6d78036405df7bf71bbba68cc6210d44}{recoveryonstart}}(\_recoveryonstart)}
+\DoxyCodeLine{148         \{}
+\DoxyCodeLine{149         \}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{156         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a7dca730992f15c90c9cf37e3fbd68f7f}{set\_recovery\_processor}}(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech::mdp3::RecoveryProcessor<MessageProcessor>}} *rec)}
+\DoxyCodeLine{157         \{}
+\DoxyCodeLine{158             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acc8dcb605fdc1078740326c861c7b5c0}{recovery\_processor}} = rec;}
+\DoxyCodeLine{159         \}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{165         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a573be7ca169ec0b799d7120c0063522a}{connect}}() noexcept}
+\DoxyCodeLine{166         \{}
+\DoxyCodeLine{167             \textcolor{comment}{// port a and b are mc ports}}
+\DoxyCodeLine{168             \textcolor{comment}{// group a and b are mc groups}}
+\DoxyCodeLine{169             m2tech::mcast::create\_udp\_socket(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aacfd10e42ac8fa2c5358c6f42b0b40c9}{port\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff16296fb0a55f1d799818d334f73698}{sock\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff1289c2f62eccec9e189de5997fdf17}{addr\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a1e8fc78b708e9dab77d19af7f559ff6a}{addrlen\_a}});}
+\DoxyCodeLine{170             m2tech::mcast::create\_udp\_socket(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aba4741b26d6c220558d2ff0fe4ee6a6d}{port\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa609c0cb943bcc01bbee609e7672b7a2}{sock\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a814dc3b2552aa336414d1d2d39983556}{addr\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a702bc4e8f45bda64f8a24c0355ec52a3}{addrlen\_b}});}
+\DoxyCodeLine{171             m2tech::mcast::join\_group(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff16296fb0a55f1d799818d334f73698}{sock\_a}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a027ca5a5a8c180b0965ca09b1bc045f4}{group\_a}}.c\_str(), \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a152301b95bf27141e7604b65a01c0278}{interface}}.c\_str());}
+\DoxyCodeLine{172             m2tech::mcast::join\_group(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa609c0cb943bcc01bbee609e7672b7a2}{sock\_b}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa35f36e8b53bb77d71d5e083470eb635}{group\_b}}.c\_str(), \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a152301b95bf27141e7604b65a01c0278}{interface}}.c\_str());}
+\DoxyCodeLine{173             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af5f33a171ae57f930a2eb75a91aa4547}{shutdown}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{174         \}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{180         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a6f26563eaba3a75e5cccad7060114136}{operator()}}()}
+\DoxyCodeLine{181         \{}
+\DoxyCodeLine{182             \textcolor{keywordflow}{while} (!\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af5f33a171ae57f930a2eb75a91aa4547}{shutdown}})}
+\DoxyCodeLine{183                 \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a38f38c68f90bbe886d97a36088903d78}{read\_sockets}}();}
+\DoxyCodeLine{184         \}}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{191         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a38f38c68f90bbe886d97a36088903d78}{read\_sockets}}() noexcept}
+\DoxyCodeLine{192         \{}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}} *msg;}
+\DoxyCodeLine{195             uint32\_t seq;}
+\DoxyCodeLine{196             \textcolor{keywordtype}{bool} have\_msg = \textcolor{keyword}{false};}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198             \textcolor{comment}{//}}
+\DoxyCodeLine{199             \textcolor{comment}{// timestamp here if you want to include socket read time}}
+\DoxyCodeLine{200             \textcolor{comment}{//}}
+\DoxyCodeLine{201             \textcolor{comment}{// auto recv\_ts = std::chrono::high\_resolution\_clock::now().time\_since\_epoch().count();}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203             \textcolor{comment}{//}}
+\DoxyCodeLine{204             \textcolor{comment}{// TODO: reading A then B is not ideal}}
+\DoxyCodeLine{205             \textcolor{comment}{//}}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207             \textcolor{comment}{//}}
+\DoxyCodeLine{208             \textcolor{comment}{// TODO: message buffers should be memory pooled}}
+\DoxyCodeLine{209             \textcolor{comment}{//}}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211             \textcolor{keywordflow}{while} (\textcolor{keyword}{true})}
+\DoxyCodeLine{212             \{}
+\DoxyCodeLine{213                 msg = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a0064ced332ce4a51ed8e1182861afe13}{read\_a}}(seq);}
+\DoxyCodeLine{214                 \textcolor{keywordflow}{if} (msg)}
+\DoxyCodeLine{215                 \{}
+\DoxyCodeLine{216                     \textcolor{keyword}{auto} p = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.find(seq);}
+\DoxyCodeLine{217                     \textcolor{keywordflow}{if} (p == \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.end())}
+\DoxyCodeLine{218                     \{}
+\DoxyCodeLine{219                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}[seq] = msg;}
+\DoxyCodeLine{220                         have\_msg = \textcolor{keyword}{true};}
+\DoxyCodeLine{221                     \}}
+\DoxyCodeLine{222                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{223                         \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{224                 \}}
+\DoxyCodeLine{225                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{226                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{227             \}}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229             \textcolor{keywordflow}{while} (\textcolor{keyword}{true})}
+\DoxyCodeLine{230             \{}
+\DoxyCodeLine{231                 msg = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a569e2dafb17d1f908164a4c2ad107c80}{read\_b}}(seq);}
+\DoxyCodeLine{232                 \textcolor{keywordflow}{if} (msg)}
+\DoxyCodeLine{233                 \{}
+\DoxyCodeLine{234                     \textcolor{keyword}{auto} p = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.find(seq);}
+\DoxyCodeLine{235                     \textcolor{keywordflow}{if} (p == \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.end())}
+\DoxyCodeLine{236                     \{}
+\DoxyCodeLine{237                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}[seq] = msg;}
+\DoxyCodeLine{238                         have\_msg = \textcolor{keyword}{true};}
+\DoxyCodeLine{239                     \}}
+\DoxyCodeLine{240                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{241                         \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{242                 \}}
+\DoxyCodeLine{243                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{244                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{245             \}}
+\DoxyCodeLine{246 }
+\DoxyCodeLine{247             \textcolor{comment}{//}}
+\DoxyCodeLine{248             \textcolor{comment}{// time stamp here to measure just the decode time}}
+\DoxyCodeLine{249             \textcolor{comment}{//}}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251             \textcolor{keyword}{auto} recv\_ts = std::chrono::high\_resolution\_clock::now().time\_since\_epoch().count();}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253             \textcolor{keywordflow}{if} (have\_msg)}
+\DoxyCodeLine{254                 \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aac8be2dc060832bf2fe25f94597d7740}{processq}}(recv\_ts);}
+\DoxyCodeLine{255         \}}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{262         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aac8be2dc060832bf2fe25f94597d7740}{processq}}(uint64\_t ts) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{263         \{}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a4aa53c22a760f5cb62d9b56d5c70cfc9}{in\_recovery}})}
+\DoxyCodeLine{266                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268             \textcolor{keyword}{auto} p = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.begin();}
+\DoxyCodeLine{269             \textcolor{keywordflow}{if} (p == \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.end())}
+\DoxyCodeLine{270                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272             \textcolor{keywordflow}{while} (p != \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.end())}
+\DoxyCodeLine{273             \{}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{275                 \textcolor{keyword}{auto} sn = p-\/>first;}
+\DoxyCodeLine{276                 \textcolor{keyword}{auto} msg = p-\/>second;}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278                 \textcolor{keywordflow}{if} (sn <= \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}})}
+\DoxyCodeLine{279                 \{}
+\DoxyCodeLine{280                     \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{281                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.erase(p);}
+\DoxyCodeLine{282                     p = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.begin();}
+\DoxyCodeLine{283                 \}}
+\DoxyCodeLine{284                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (}
+\DoxyCodeLine{285                     (sn == \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} + 1) ||}
+\DoxyCodeLine{286                     (!\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af23fe9c3e4c575f2dea22d12ec894d27}{dorecovery}} \&\& \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} != 0) ||}
+\DoxyCodeLine{287                     (!\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a6d78036405df7bf71bbba68cc6210d44}{recoveryonstart}} \&\& \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} == 0))}
+\DoxyCodeLine{288                 \{}
+\DoxyCodeLine{289                     \textcolor{keywordflow}{if} (sn != \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} + 1)}
+\DoxyCodeLine{290                     \{}
+\DoxyCodeLine{291                         std::cout << \textcolor{stringliteral}{"{}READ: *** GAP DETECTED but not recovering sn: "{}} << sn << \textcolor{stringliteral}{"{} expected "{}} << \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} + 1 << std::endl;}
+\DoxyCodeLine{292                     \}}
+\DoxyCodeLine{293                     \textcolor{comment}{// process message}}
+\DoxyCodeLine{294                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a3c156fae061920eb638f458e777d0089}{decoder}}.\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_data_decoder_a6c61ce2aa28731ce548f6513520e0515}{mbo\_data}}(\&msg-\/>message[0], msg-\/>len, ts);}
+\DoxyCodeLine{295                     \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{296                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.erase(p);}
+\DoxyCodeLine{297                     p = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a188c104fd3fef775a82dfe1c007161aa}{msg\_q}}.begin();}
+\DoxyCodeLine{298                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} = sn;}
+\DoxyCodeLine{299                 \}}
+\DoxyCodeLine{300                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{301                 \{}
+\DoxyCodeLine{302                     \textcolor{comment}{// we have a gap}}
+\DoxyCodeLine{303                     std::cout << \textcolor{stringliteral}{"{}READ: RECOVERING FROM GAP sn: "{}} << sn << \textcolor{stringliteral}{"{} expected "{}} << \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} + 1 << std::endl;}
+\DoxyCodeLine{304                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a4aa53c22a760f5cb62d9b56d5c70cfc9}{in\_recovery}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{305                     \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a3c156fae061920eb638f458e777d0089}{decoder}}.\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_data_decoder_abc0d3ecf98384d93dbe0815ebd482ee6}{clear}}();}
+\DoxyCodeLine{306                     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acb7b3ce5753125d3769aed1c94ee07d4}{have\_instruments}})}
+\DoxyCodeLine{307                     \{}
+\DoxyCodeLine{308                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acc8dcb605fdc1078740326c861c7b5c0}{recovery\_processor}}-\/>do\_recovery(\textcolor{keyword}{true});}
+\DoxyCodeLine{309                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acb7b3ce5753125d3769aed1c94ee07d4}{have\_instruments}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{310                     \}}
+\DoxyCodeLine{311                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{312                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_acc8dcb605fdc1078740326c861c7b5c0}{recovery\_processor}}-\/>do\_recovery(\textcolor{keyword}{false});}
+\DoxyCodeLine{313                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{314                 \}}
+\DoxyCodeLine{315             \}}
+\DoxyCodeLine{316         \}}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{324         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a72b9f5c6a70dac507e2062b24965aea4}{datarecoveryend}}(uint32\_t last\_seq) \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{325         \{}
+\DoxyCodeLine{326             std::cout << \textcolor{stringliteral}{"{}RECOVERY DONE\(\backslash\)n"{}};}
+\DoxyCodeLine{327             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_ac3d8dda97df9476b2d770ffd9f518e27}{qseq\_num}} = last\_seq;}
+\DoxyCodeLine{328             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a4aa53c22a760f5cb62d9b56d5c70cfc9}{in\_recovery}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{329         \}}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{335         \textcolor{keywordtype}{void}}
+\DoxyCodeLine{336         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_a0786764a85d56fe0a53e958edec80274}{end}}() noexcept}
+\DoxyCodeLine{337         \{}
+\DoxyCodeLine{338             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_af5f33a171ae57f930a2eb75a91aa4547}{shutdown}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{339             close(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aff16296fb0a55f1d799818d334f73698}{sock\_a}});}
+\DoxyCodeLine{340             close(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor_aa609c0cb943bcc01bbee609e7672b7a2}{sock\_b}});}
+\DoxyCodeLine{341         \}}
+\DoxyCodeLine{342     \};}
+\DoxyCodeLine{343 }
+\DoxyCodeLine{344 \}}
+
+\end{DoxyCode}

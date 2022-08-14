@@ -42,6 +42,13 @@ https://opensource.org/licenses/MIT
 
 #include <thread>
 
+/**
+ * @brief Example program of how to instantiate and run the handler.
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char *argv[])
 {
 

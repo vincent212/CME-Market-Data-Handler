@@ -1,0 +1,364 @@
+\hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor}{}\doxysection{m2tech\+::mdp3\+::Recovery\+Processor\texorpdfstring{$<$}{<} MP \texorpdfstring{$>$}{>} Struct Template Reference}
+\label{structm2tech_1_1mdp3_1_1_recovery_processor}\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+
+
+Recover from gaps or on join.  
+
+
+
+
+{\ttfamily \#include $<$Recovery\+Processor.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a3bb10af307f289d13db1341bfa708254}{Recovery\+Processor}} (MP $\ast$\+\_\+mp, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{Call\+Back\+IF}} $\ast$\+\_\+cb, in\+\_\+port\+\_\+t \+\_\+port\+\_\+dr, in\+\_\+port\+\_\+t \+\_\+port\+\_\+ir, const char $\ast$\+\_\+group\+\_\+dr, const char $\ast$\+\_\+group\+\_\+ir, const char $\ast$\+\_\+interface, bool \+\_\+debug)
+\begin{DoxyCompactList}\small\item\em Construct a new Recovery Processor object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a8b2f86891538f0b3dd6e48671fa57c28}{do\+\_\+recovery}} (bool \+\_\+recover\+\_\+instruments)
+\begin{DoxyCompactList}\small\item\em Notify this thread that a recovery should start. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afdb8fb33ed689659adb390e550c0f209}{run\+\_\+recovery}} () noexcept
+\begin{DoxyCompactList}\small\item\em Wait for cond var and run instrument and data recovery. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9d7bbbccd531118d6927c1187bed6fc9}{operator()}} ()
+\begin{DoxyCompactList}\small\item\em Thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afa990dcbcbd105e46d2d786cb38bd88d}{end}} ()
+\begin{DoxyCompactList}\small\item\em Stop the thread. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\+\_\+buffer}} $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a701e55f73ab1f74232caf3f0af8da796}{read\+\_\+dr}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Read from data recovery multicast port. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\+\_\+buffer}} $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9b3526143213f16a17312f1ddbc53036}{read\+\_\+ir}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Read from instrument recovery multicast port. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a278d7fd2c6e5cefdd9dc2577ce7e2ad2}{datarecovery}} () noexcept
+\begin{DoxyCompactList}\small\item\em Do data recovery. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9575d2816a2184cf96e3434d12bce01e}{instrumentrecovery}} () noexcept
+\begin{DoxyCompactList}\small\item\em Do instrument recovery. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::mutex \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}
+\item 
+std\+::condition\+\_\+variable \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}{cv}}
+\item 
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}{shutdown}} = false
+\item 
+MP $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}{mp}}
+\item 
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}{recover\+\_\+instruments}} = false
+\item 
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}}
+\item 
+in\+\_\+port\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}{port\+\_\+ir}}
+\item 
+in\+\_\+port\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}{port\+\_\+dr}}
+\item 
+int \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\+\_\+ir}}
+\item 
+int \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\+\_\+dr}}
+\item 
+struct sockaddr\+\_\+in addr\+\_\+ir \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}{addr\+\_\+dr}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}{addrlen\+\_\+ir}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}{addrlen\+\_\+dr}}
+\item 
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}{group\+\_\+ir}}
+\item 
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}{group\+\_\+dr}}
+\item 
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}{interface}}
+\item 
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{Call\+Back\+IF}} $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}
+\item 
+std\+::map$<$ int32\+\_\+t, std\+::string $>$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}{securities}}
+\item 
+std\+::set$<$ int32\+\_\+t $>$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}{recovered\+\_\+books}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename MP$>$\newline
+struct m2tech\+::mdp3\+::\+Recovery\+Processor$<$ MP $>$}
+Recover from gaps or on join. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em MP} & \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor}{Message\+Processor}} \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a3bb10af307f289d13db1341bfa708254}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a3bb10af307f289d13db1341bfa708254}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!RecoveryProcessor@{RecoveryProcessor}}
+\index{RecoveryProcessor@{RecoveryProcessor}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{RecoveryProcessor()}{RecoveryProcessor()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::\+Recovery\+Processor (\begin{DoxyParamCaption}\item[{MP $\ast$}]{\+\_\+mp,  }\item[{\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{Call\+Back\+IF}} $\ast$}]{\+\_\+cb,  }\item[{in\+\_\+port\+\_\+t}]{\+\_\+port\+\_\+dr,  }\item[{in\+\_\+port\+\_\+t}]{\+\_\+port\+\_\+ir,  }\item[{const char $\ast$}]{\+\_\+group\+\_\+dr,  }\item[{const char $\ast$}]{\+\_\+group\+\_\+ir,  }\item[{const char $\ast$}]{\+\_\+interface,  }\item[{bool}]{\+\_\+debug }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Recovery Processor object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+mp} & the \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_message_processor}{Message\+Processor}} \\
+\hline
+{\em \+\_\+cb} & callback object implementing application logic \\
+\hline
+{\em \+\_\+port\+\_\+dr} & \\
+\hline
+{\em \+\_\+port\+\_\+ir} & \\
+\hline
+{\em \+\_\+group\+\_\+dr} & \\
+\hline
+{\em \+\_\+group\+\_\+ir} & \\
+\hline
+{\em \+\_\+interface} & interface we are listening on \\
+\hline
+{\em \+\_\+debug} & print all messages \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a278d7fd2c6e5cefdd9dc2577ce7e2ad2}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a278d7fd2c6e5cefdd9dc2577ce7e2ad2}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!datarecovery@{datarecovery}}
+\index{datarecovery@{datarecovery}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{datarecovery()}{datarecovery()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+uint32\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::datarecovery (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Do data recovery. 
+
+\begin{DoxyReturn}{Returns}
+uint32\+\_\+t last sequence number recovered 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a8b2f86891538f0b3dd6e48671fa57c28}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a8b2f86891538f0b3dd6e48671fa57c28}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!do\_recovery@{do\_recovery}}
+\index{do\_recovery@{do\_recovery}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{do\_recovery()}{do\_recovery()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::do\+\_\+recovery (\begin{DoxyParamCaption}\item[{bool}]{\+\_\+recover\+\_\+instruments }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Notify this thread that a recovery should start. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+recover\+\_\+instruments} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_afa990dcbcbd105e46d2d786cb38bd88d}\label{structm2tech_1_1mdp3_1_1_recovery_processor_afa990dcbcbd105e46d2d786cb38bd88d}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!end@{end}}
+\index{end@{end}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Stop the thread. 
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a9575d2816a2184cf96e3434d12bce01e}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a9575d2816a2184cf96e3434d12bce01e}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!instrumentrecovery@{instrumentrecovery}}
+\index{instrumentrecovery@{instrumentrecovery}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{instrumentrecovery()}{instrumentrecovery()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::instrumentrecovery (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Do instrument recovery. 
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a9d7bbbccd531118d6927c1187bed6fc9}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a9d7bbbccd531118d6927c1187bed6fc9}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::operator() (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Thread. 
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a701e55f73ab1f74232caf3f0af8da796}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a701e55f73ab1f74232caf3f0af8da796}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!read\_dr@{read\_dr}}
+\index{read\_dr@{read\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{read\_dr()}{read\_dr()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\+\_\+buffer}} $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::read\+\_\+dr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Read from data recovery multicast port. 
+
+\begin{DoxyReturn}{Returns}
+message\+\_\+buffer$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a9b3526143213f16a17312f1ddbc53036}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a9b3526143213f16a17312f1ddbc53036}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!read\_ir@{read\_ir}}
+\index{read\_ir@{read\_ir}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{read\_ir()}{read\_ir()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\+\_\+buffer}} $\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::read\+\_\+ir (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Read from instrument recovery multicast port. 
+
+\begin{DoxyReturn}{Returns}
+message\+\_\+buffer$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_afdb8fb33ed689659adb390e550c0f209}\label{structm2tech_1_1mdp3_1_1_recovery_processor_afdb8fb33ed689659adb390e550c0f209}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!run\_recovery@{run\_recovery}}
+\index{run\_recovery@{run\_recovery}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{run\_recovery()}{run\_recovery()}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+void \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::run\+\_\+recovery (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Wait for cond var and run instrument and data recovery. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!addr\_dr@{addr\_dr}}
+\index{addr\_dr@{addr\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{addr\_dr}{addr\_dr}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+struct sockaddr\+\_\+in addr\+\_\+ir \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::addr\+\_\+dr}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}\label{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!addrlen\_dr@{addrlen\_dr}}
+\index{addrlen\_dr@{addrlen\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{addrlen\_dr}{addrlen\_dr}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+size\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::addrlen\+\_\+dr}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}\label{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!addrlen\_ir@{addrlen\_ir}}
+\index{addrlen\_ir@{addrlen\_ir}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{addrlen\_ir}{addrlen\_ir}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+size\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::addrlen\+\_\+ir}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!cb@{cb}}
+\index{cb@{cb}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{cb}{cb}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{Call\+Back\+IF}}$\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::cb}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}\label{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!cv@{cv}}
+\index{cv@{cv}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{cv}{cv}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::condition\+\_\+variable \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::cv}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!debug@{debug}}
+\index{debug@{debug}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{debug}{debug}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::debug}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}\label{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!group\_dr@{group\_dr}}
+\index{group\_dr@{group\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{group\_dr}{group\_dr}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::group\+\_\+dr}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!group\_ir@{group\_ir}}
+\index{group\_ir@{group\_ir}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{group\_ir}{group\_ir}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::group\+\_\+ir}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!interface@{interface}}
+\index{interface@{interface}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{interface}{interface}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::interface}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!m@{m}}
+\index{m@{m}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::mutex \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::m}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}\label{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!mp@{mp}}
+\index{mp@{mp}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{mp}{mp}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+MP$\ast$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::mp}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}\label{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!port\_dr@{port\_dr}}
+\index{port\_dr@{port\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{port\_dr}{port\_dr}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+in\+\_\+port\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::port\+\_\+dr}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!port\_ir@{port\_ir}}
+\index{port\_ir@{port\_ir}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{port\_ir}{port\_ir}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+in\+\_\+port\+\_\+t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::port\+\_\+ir}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}\label{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!recover\_instruments@{recover\_instruments}}
+\index{recover\_instruments@{recover\_instruments}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{recover\_instruments}{recover\_instruments}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::recover\+\_\+instruments = false}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!recovered\_books@{recovered\_books}}
+\index{recovered\_books@{recovered\_books}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{recovered\_books}{recovered\_books}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::set$<$int32\+\_\+t$>$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::recovered\+\_\+books}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!securities@{securities}}
+\index{securities@{securities}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{securities}{securities}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+std\+::map$<$int32\+\_\+t, std\+::string$>$ \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::securities}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{shutdown}{shutdown}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+bool \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::shutdown = false}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}\label{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!sock\_dr@{sock\_dr}}
+\index{sock\_dr@{sock\_dr}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{sock\_dr}{sock\_dr}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+int \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::sock\+\_\+dr}
+
+\mbox{\Hypertarget{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}\label{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}} 
+\index{m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}!sock\_ir@{sock\_ir}}
+\index{sock\_ir@{sock\_ir}!m2tech::mdp3::RecoveryProcessor$<$ MP $>$@{m2tech::mdp3::RecoveryProcessor$<$ MP $>$}}
+\doxysubsubsection{\texorpdfstring{sock\_ir}{sock\_ir}}
+{\footnotesize\ttfamily template$<$typename MP $>$ \\
+int \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{m2tech\+::mdp3\+::\+Recovery\+Processor}}$<$ MP $>$\+::sock\+\_\+ir}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_recovery_processor_8hpp}{Recovery\+Processor.\+hpp}}\end{DoxyCompactItemize}

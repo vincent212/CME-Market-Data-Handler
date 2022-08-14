@@ -1,0 +1,160 @@
+\hypertarget{struct_call_back_impl}{}\doxysection{Call\+Back\+Impl Struct Reference}
+\label{struct_call_back_impl}\index{CallBackImpl@{CallBackImpl}}
+
+
+Application must fill in the blanks.  
+
+
+
+
+{\ttfamily \#include $<$Call\+Back\+Impl.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_call_back_impl_ae1729cff8b4a08b127445a858cc0979f}{Call\+Back\+Impl}} ()
+\item 
+void \mbox{\hyperlink{struct_call_back_impl_a96b319bb6d86e73f6800f4b81828039c}{MDIncremental\+Refresh\+Book}} (uint64\+\_\+t recv\+\_\+time, uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, uint32\+\_\+t security\+ID, int64\+\_\+t px\+\_\+mantissa, int8\+\_\+t px\+\_\+exponent, char side, int32\+\_\+t display\+Qty, uint64\+\_\+t order\+ID, uint8\+\_\+t order\+Update\+Action, uint64\+\_\+t priority, bool end\+Of\+Event, bool recovery) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_a0cd62c025cdcfd69c94a64b3d5451165}{MDIncremental\+Refresh\+Trade\+Summary}} (uint64\+\_\+t recv\+\_\+time, uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, int32\+\_\+t last\+Qty, uint64\+\_\+t order\+ID, int32\+\_\+t security\+ID, bool last\+Trade, bool eoe) noexcept
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_ae46dd44e59d20bf642d5e99d1133f687}{MDIncremental\+Refresh\+Session\+Statistics}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, uint32\+\_\+t secid, uint8\+\_\+t open\+Close\+Settle\+Flag, int64\+\_\+t px\+\_\+mantissa, int64\+\_\+t px\+\_\+exponent, uint8\+\_\+t update\+Action, char entry\+Type) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_ab727dc2173e3cb58759c72b52a48c086}{MDInstrument\+Definition\+Future}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t sending\+Time, char $\ast$sym, char $\ast$asset, char $\ast$cfi\+Code, int64\+\_\+t high\+\_\+limit\+\_\+px\+\_\+mantissa, int8\+\_\+t high\+\_\+limit\+\_\+px\+\_\+exponent, int64\+\_\+t low\+\_\+limit\+\_\+px\+\_\+mantissa, int8\+\_\+t low\+\_\+limit\+\_\+px\+\_\+exponent, int64\+\_\+t pxvar\+\_\+mantissa, int8\+\_\+t pxvar\+\_\+exponent, int32\+\_\+t sec\+\_\+id, char update\+Action, uint8\+\_\+t trading\+Status, uint64\+\_\+t activation, uint64\+\_\+t expiration, char $\ast$sec\+\_\+group, uint8\+\_\+t seg\+\_\+id) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_a91a16c486b094c8339aecadaa4ceab55}{Snapshot\+Full\+Refresh\+Order\+Book}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, uint32\+\_\+t current\+Chunk, uint32\+\_\+t num\+Chunks, int32\+\_\+t security\+ID, int32\+\_\+t display\+Qty, int64\+\_\+t px\+\_\+mantissa, int64\+\_\+t px\+\_\+exponent, char side, uint64\+\_\+t order\+Priority, uint64\+\_\+t order\+ID) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_af01ef988c4a1a9dc7564deba39b36322}{MDIncremental\+Refresh\+Limits\+Banding}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, int32\+\_\+t security\+ID, int64\+\_\+t pxh\+\_\+mantissa, int8\+\_\+t pxh\+\_\+exponent, int64\+\_\+t pxl\+\_\+mantissa, int8\+\_\+t pxl\+\_\+exponent, int64\+\_\+t pxvar\+\_\+mantissa, int8\+\_\+t pxvar\+\_\+exponent, const char $\ast$entry\+Type) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_a9b521e95a3f58261594c1f42e5b4da82}{Security\+Status}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, int32\+\_\+t security\+ID, uint8\+\_\+t halt\+Reason, uint8\+\_\+t trading\+Status, uint8\+\_\+t trading\+Event) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_a7338b90f9102ca46696d96cdecd24575}{Clear}} () noexcept override
+\begin{DoxyCompactList}\small\item\em A call to this function indicates that a gap was detected. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_af575553b5e000fc0802410a9236c0cd1}{Channel\+Reset}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, const char $\ast$md\+Entry\+Type) noexcept override
+\item 
+virtual void \mbox{\hyperlink{struct_call_back_impl_ab560916e2f0e8fd923ac03682c5254dc}{MDIncremental\+Refresh\+Volume}} (uint32\+\_\+t msg\+Seq\+Num, uint64\+\_\+t transact\+Time, uint64\+\_\+t sending\+Time, int32\+\_\+t security\+ID, int32\+\_\+t volume, char typ, uint8\+\_\+t action) noexcept override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Application must fill in the blanks. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_call_back_impl_ae1729cff8b4a08b127445a858cc0979f}\label{struct_call_back_impl_ae1729cff8b4a08b127445a858cc0979f}} 
+\index{CallBackImpl@{CallBackImpl}!CallBackImpl@{CallBackImpl}}
+\index{CallBackImpl@{CallBackImpl}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{CallBackImpl()}{CallBackImpl()}}
+{\footnotesize\ttfamily Call\+Back\+Impl\+::\+Call\+Back\+Impl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_call_back_impl_af575553b5e000fc0802410a9236c0cd1}\label{struct_call_back_impl_af575553b5e000fc0802410a9236c0cd1}} 
+\index{CallBackImpl@{CallBackImpl}!ChannelReset@{ChannelReset}}
+\index{ChannelReset@{ChannelReset}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{ChannelReset()}{ChannelReset()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+Channel\+Reset (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{const char $\ast$}]{md\+Entry\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_aaed3dc5b8c2790d3f1a9192ec57e2c61}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_a7338b90f9102ca46696d96cdecd24575}\label{struct_call_back_impl_a7338b90f9102ca46696d96cdecd24575}} 
+\index{CallBackImpl@{CallBackImpl}!Clear@{Clear}}
+\index{Clear@{Clear}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+A call to this function indicates that a gap was detected. 
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_aa85d677b388e4993d6b323bba48da67d}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_a96b319bb6d86e73f6800f4b81828039c}\label{struct_call_back_impl_a96b319bb6d86e73f6800f4b81828039c}} 
+\index{CallBackImpl@{CallBackImpl}!MDIncrementalRefreshBook@{MDIncrementalRefreshBook}}
+\index{MDIncrementalRefreshBook@{MDIncrementalRefreshBook}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDIncrementalRefreshBook()}{MDIncrementalRefreshBook()}}
+{\footnotesize\ttfamily void Call\+Back\+Impl\+::\+MDIncremental\+Refresh\+Book (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{recv\+\_\+time,  }\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{uint32\+\_\+t}]{security\+ID,  }\item[{int64\+\_\+t}]{px\+\_\+mantissa,  }\item[{int8\+\_\+t}]{px\+\_\+exponent,  }\item[{char}]{side,  }\item[{int32\+\_\+t}]{display\+Qty,  }\item[{uint64\+\_\+t}]{order\+ID,  }\item[{uint8\+\_\+t}]{order\+Update\+Action,  }\item[{uint64\+\_\+t}]{priority,  }\item[{bool}]{end\+Of\+Event,  }\item[{bool}]{recovery }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_ad312aa16159c3562d09162417385e0f5}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_af01ef988c4a1a9dc7564deba39b36322}\label{struct_call_back_impl_af01ef988c4a1a9dc7564deba39b36322}} 
+\index{CallBackImpl@{CallBackImpl}!MDIncrementalRefreshLimitsBanding@{MDIncrementalRefreshLimitsBanding}}
+\index{MDIncrementalRefreshLimitsBanding@{MDIncrementalRefreshLimitsBanding}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDIncrementalRefreshLimitsBanding()}{MDIncrementalRefreshLimitsBanding()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+MDIncremental\+Refresh\+Limits\+Banding (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{int32\+\_\+t}]{security\+ID,  }\item[{int64\+\_\+t}]{pxh\+\_\+mantissa,  }\item[{int8\+\_\+t}]{pxh\+\_\+exponent,  }\item[{int64\+\_\+t}]{pxl\+\_\+mantissa,  }\item[{int8\+\_\+t}]{pxl\+\_\+exponent,  }\item[{int64\+\_\+t}]{pxvar\+\_\+mantissa,  }\item[{int8\+\_\+t}]{pxvar\+\_\+exponent,  }\item[{const char $\ast$}]{entry\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a1c75ee530133d10df79dace69620ca36}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_ae46dd44e59d20bf642d5e99d1133f687}\label{struct_call_back_impl_ae46dd44e59d20bf642d5e99d1133f687}} 
+\index{CallBackImpl@{CallBackImpl}!MDIncrementalRefreshSessionStatistics@{MDIncrementalRefreshSessionStatistics}}
+\index{MDIncrementalRefreshSessionStatistics@{MDIncrementalRefreshSessionStatistics}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDIncrementalRefreshSessionStatistics()}{MDIncrementalRefreshSessionStatistics()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+MDIncremental\+Refresh\+Session\+Statistics (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{uint32\+\_\+t}]{secid,  }\item[{uint8\+\_\+t}]{open\+Close\+Settle\+Flag,  }\item[{int64\+\_\+t}]{px\+\_\+mantissa,  }\item[{int64\+\_\+t}]{px\+\_\+exponent,  }\item[{uint8\+\_\+t}]{update\+Action,  }\item[{char}]{entry\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_adf64a44acd21bfa3c5c28105f5e2a1a7}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_a0cd62c025cdcfd69c94a64b3d5451165}\label{struct_call_back_impl_a0cd62c025cdcfd69c94a64b3d5451165}} 
+\index{CallBackImpl@{CallBackImpl}!MDIncrementalRefreshTradeSummary@{MDIncrementalRefreshTradeSummary}}
+\index{MDIncrementalRefreshTradeSummary@{MDIncrementalRefreshTradeSummary}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDIncrementalRefreshTradeSummary()}{MDIncrementalRefreshTradeSummary()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+MDIncremental\+Refresh\+Trade\+Summary (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{recv\+\_\+time,  }\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{int32\+\_\+t}]{last\+Qty,  }\item[{uint64\+\_\+t}]{order\+ID,  }\item[{int32\+\_\+t}]{security\+ID,  }\item[{bool}]{last\+Trade,  }\item[{bool}]{eoe }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_ac058769c169c6ee7c7ef110fff7e2102}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_ab560916e2f0e8fd923ac03682c5254dc}\label{struct_call_back_impl_ab560916e2f0e8fd923ac03682c5254dc}} 
+\index{CallBackImpl@{CallBackImpl}!MDIncrementalRefreshVolume@{MDIncrementalRefreshVolume}}
+\index{MDIncrementalRefreshVolume@{MDIncrementalRefreshVolume}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDIncrementalRefreshVolume()}{MDIncrementalRefreshVolume()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+MDIncremental\+Refresh\+Volume (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{int32\+\_\+t}]{security\+ID,  }\item[{int32\+\_\+t}]{volume,  }\item[{char}]{typ,  }\item[{uint8\+\_\+t}]{action }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a13018d92edbceb0f122813073103dfaf}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_ab727dc2173e3cb58759c72b52a48c086}\label{struct_call_back_impl_ab727dc2173e3cb58759c72b52a48c086}} 
+\index{CallBackImpl@{CallBackImpl}!MDInstrumentDefinitionFuture@{MDInstrumentDefinitionFuture}}
+\index{MDInstrumentDefinitionFuture@{MDInstrumentDefinitionFuture}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{MDInstrumentDefinitionFuture()}{MDInstrumentDefinitionFuture()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+MDInstrument\+Definition\+Future (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{char $\ast$}]{sym,  }\item[{char $\ast$}]{asset,  }\item[{char $\ast$}]{cfi\+Code,  }\item[{int64\+\_\+t}]{high\+\_\+limit\+\_\+px\+\_\+mantissa,  }\item[{int8\+\_\+t}]{high\+\_\+limit\+\_\+px\+\_\+exponent,  }\item[{int64\+\_\+t}]{low\+\_\+limit\+\_\+px\+\_\+mantissa,  }\item[{int8\+\_\+t}]{low\+\_\+limit\+\_\+px\+\_\+exponent,  }\item[{int64\+\_\+t}]{pxvar\+\_\+mantissa,  }\item[{int8\+\_\+t}]{pxvar\+\_\+exponent,  }\item[{int32\+\_\+t}]{sec\+\_\+id,  }\item[{char}]{update\+Action,  }\item[{uint8\+\_\+t}]{trading\+Status,  }\item[{uint64\+\_\+t}]{activation,  }\item[{uint64\+\_\+t}]{expiration,  }\item[{char $\ast$}]{sec\+\_\+group,  }\item[{uint8\+\_\+t}]{seg\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a87af4273a641588e1e1b68e85cbeec8a}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_a9b521e95a3f58261594c1f42e5b4da82}\label{struct_call_back_impl_a9b521e95a3f58261594c1f42e5b4da82}} 
+\index{CallBackImpl@{CallBackImpl}!SecurityStatus@{SecurityStatus}}
+\index{SecurityStatus@{SecurityStatus}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{SecurityStatus()}{SecurityStatus()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+Security\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{int32\+\_\+t}]{security\+ID,  }\item[{uint8\+\_\+t}]{halt\+Reason,  }\item[{uint8\+\_\+t}]{trading\+Status,  }\item[{uint8\+\_\+t}]{trading\+Event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a35709d9a38e33c23c5138476b843da14}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+\mbox{\Hypertarget{struct_call_back_impl_a91a16c486b094c8339aecadaa4ceab55}\label{struct_call_back_impl_a91a16c486b094c8339aecadaa4ceab55}} 
+\index{CallBackImpl@{CallBackImpl}!SnapshotFullRefreshOrderBook@{SnapshotFullRefreshOrderBook}}
+\index{SnapshotFullRefreshOrderBook@{SnapshotFullRefreshOrderBook}!CallBackImpl@{CallBackImpl}}
+\doxysubsubsection{\texorpdfstring{SnapshotFullRefreshOrderBook()}{SnapshotFullRefreshOrderBook()}}
+{\footnotesize\ttfamily virtual void Call\+Back\+Impl\+::\+Snapshot\+Full\+Refresh\+Order\+Book (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{msg\+Seq\+Num,  }\item[{uint64\+\_\+t}]{transact\+Time,  }\item[{uint64\+\_\+t}]{sending\+Time,  }\item[{uint32\+\_\+t}]{current\+Chunk,  }\item[{uint32\+\_\+t}]{num\+Chunks,  }\item[{int32\+\_\+t}]{security\+ID,  }\item[{int32\+\_\+t}]{display\+Qty,  }\item[{int64\+\_\+t}]{px\+\_\+mantissa,  }\item[{int64\+\_\+t}]{px\+\_\+exponent,  }\item[{char}]{side,  }\item[{uint64\+\_\+t}]{order\+Priority,  }\item[{uint64\+\_\+t}]{order\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implements \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a7ee941c50ec11ea5951bcf81293f878e}{m2tech\+::mdp3\+::\+Call\+Back\+IF}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_call_back_impl_8hpp}{Call\+Back\+Impl.\+hpp}}\end{DoxyCompactItemize}

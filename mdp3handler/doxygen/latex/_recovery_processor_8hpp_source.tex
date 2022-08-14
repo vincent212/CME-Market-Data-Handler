@@ -1,0 +1,553 @@
+\hypertarget{_recovery_processor_8hpp_source}{}\doxysection{Recovery\+Processor.\+hpp}
+\mbox{\hyperlink{_recovery_processor_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{}}
+\DoxyCodeLine{3 \textcolor{comment}{THIS SOFTWARE IS OPEN SOURCE UNDER THE MIT LICENSE}}
+\DoxyCodeLine{4 \textcolor{comment}{SUPPORT IS AVAILABE FROM THE AUTHORS}}
+\DoxyCodeLine{5 \textcolor{comment}{}}
+\DoxyCodeLine{6 \textcolor{comment}{}}
+\DoxyCodeLine{7 \textcolor{comment}{Copyright 2022 Vincent Maciejewski, Quant Enterprises \& M2 Tech}}
+\DoxyCodeLine{8 \textcolor{comment}{Contact:}}
+\DoxyCodeLine{9 \textcolor{comment}{v@m2te.ch}}
+\DoxyCodeLine{10 \textcolor{comment}{mayeski@gmail.com}}
+\DoxyCodeLine{11 \textcolor{comment}{https://www.linkedin.com/in/vmayeski/}}
+\DoxyCodeLine{12 \textcolor{comment}{http://m2te.ch/}}
+\DoxyCodeLine{13 \textcolor{comment}{}}
+\DoxyCodeLine{14 \textcolor{comment}{}}
+\DoxyCodeLine{15 \textcolor{comment}{Permission is hereby granted, free of charge, to any person}}
+\DoxyCodeLine{16 \textcolor{comment}{obtaining a copy of this software and associated documentation}}
+\DoxyCodeLine{17 \textcolor{comment}{files (the "{}Software"{}), to deal in the Software without}}
+\DoxyCodeLine{18 \textcolor{comment}{restriction, including without limitation the rights to use,}}
+\DoxyCodeLine{19 \textcolor{comment}{copy, modify, merge, publish, distribute, sublicense, and/or sell}}
+\DoxyCodeLine{20 \textcolor{comment}{copies of the Software, and to permit persons to whom the}}
+\DoxyCodeLine{21 \textcolor{comment}{Software is furnished to do so, subject to the following}}
+\DoxyCodeLine{22 \textcolor{comment}{conditions:}}
+\DoxyCodeLine{23 \textcolor{comment}{}}
+\DoxyCodeLine{24 \textcolor{comment}{The above copyright notice and this permission notice shall be}}
+\DoxyCodeLine{25 \textcolor{comment}{included in all copies or substantial portions of the Software.}}
+\DoxyCodeLine{26 \textcolor{comment}{}}
+\DoxyCodeLine{27 \textcolor{comment}{THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND,}}
+\DoxyCodeLine{28 \textcolor{comment}{EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES}}
+\DoxyCodeLine{29 \textcolor{comment}{OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND}}
+\DoxyCodeLine{30 \textcolor{comment}{NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT}}
+\DoxyCodeLine{31 \textcolor{comment}{HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,}}
+\DoxyCodeLine{32 \textcolor{comment}{WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING}}
+\DoxyCodeLine{33 \textcolor{comment}{FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR}}
+\DoxyCodeLine{34 \textcolor{comment}{OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{35 \textcolor{comment}{}}
+\DoxyCodeLine{36 \textcolor{comment}{https://opensource.org/licenses/MIT}}
+\DoxyCodeLine{37 \textcolor{comment}{}}
+\DoxyCodeLine{38 \textcolor{comment}{*/}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#include <mutex>}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#include <condition\_variable>}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#include <set>}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#include <assert.h>}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{udp__socket_8hpp}{udp\_socket.hpp}}"{}}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#include "{}mktdata/SnapshotFullRefreshOrderBook53.h"{}}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#include "{}mktdata/SnapshotFullRefresh52.h"{}}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#include "{}mktdata/MDInstrumentDefinitionFuture54.h"{}}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{message__buffer_8hpp}{message\_buffer.hpp}}"{}}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_call_back_i_f_8hpp}{CallBackIF.hpp}}"{}}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#include "{}unistd.h"{}}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacem2tech_1_1mdp3}{m2tech::mdp3}}}
+\DoxyCodeLine{55 \{}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{62     \textcolor{keyword}{template} <\textcolor{keyword}{typename} MP>}
+\DoxyCodeLine{63     \textcolor{keyword}{struct }\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor}{RecoveryProcessor}}}
+\DoxyCodeLine{64     \{}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66         std::mutex \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}};}
+\DoxyCodeLine{67         std::condition\_variable \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}{cv}};}
+\DoxyCodeLine{68         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}{shutdown}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{69         MP *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}{mp}};}
+\DoxyCodeLine{70         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}{recover\_instruments}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{71         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}};}
+\DoxyCodeLine{72         in\_port\_t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}{port\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}{port\_dr}};}
+\DoxyCodeLine{73         \textcolor{keywordtype}{int} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\_dr}};}
+\DoxyCodeLine{74         \textcolor{keyword}{struct }sockaddr\_in addr\_ir, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}{addr\_dr}};}
+\DoxyCodeLine{75         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}{addrlen\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}{addrlen\_dr}};}
+\DoxyCodeLine{76         std::string \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}{group\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}{group\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}{interface}};}
+\DoxyCodeLine{77         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{CallBackIF}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}};}
+\DoxyCodeLine{78         std::map<int32\_t, std::string> \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}{securities}};}
+\DoxyCodeLine{79         std::set<int32\_t> \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}{recovered\_books}};}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{93         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a3bb10af307f289d13db1341bfa708254}{RecoveryProcessor}}(}
+\DoxyCodeLine{94             MP *\_mp,}
+\DoxyCodeLine{95             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f}{CallBackIF}} *\_cb,}
+\DoxyCodeLine{96             in\_port\_t \_port\_dr,}
+\DoxyCodeLine{97             in\_port\_t \_port\_ir,}
+\DoxyCodeLine{98             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_group\_dr,}
+\DoxyCodeLine{99             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_group\_ir,}
+\DoxyCodeLine{100             \textcolor{keyword}{const} \textcolor{keywordtype}{char} *\_interface,}
+\DoxyCodeLine{101             \textcolor{keywordtype}{bool} \_debug) : \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}{mp}}(\_mp),}
+\DoxyCodeLine{102                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}(\_cb),}
+\DoxyCodeLine{103                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}{port\_dr}}(\_port\_dr),}
+\DoxyCodeLine{104                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}{port\_ir}}(\_port\_ir),}
+\DoxyCodeLine{105                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}{group\_dr}}(\_group\_dr),}
+\DoxyCodeLine{106                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}{group\_ir}}(\_group\_ir),}
+\DoxyCodeLine{107                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}{interface}}(\_interface),}
+\DoxyCodeLine{108                            \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}}(\_debug)}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110         \{}
+\DoxyCodeLine{111         \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{118         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a8b2f86891538f0b3dd6e48671fa57c28}{do\_recovery}}(\textcolor{keywordtype}{bool} \_recover\_instruments)}
+\DoxyCodeLine{119         \{}
+\DoxyCodeLine{120             std::lock\_guard<std::mutex> lk(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}});}
+\DoxyCodeLine{121             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}{recover\_instruments}} = \_recover\_instruments;}
+\DoxyCodeLine{122             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}{cv}}.notify\_one();}
+\DoxyCodeLine{123         \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{129         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afdb8fb33ed689659adb390e550c0f209}{run\_recovery}}() noexcept}
+\DoxyCodeLine{130         \{}
+\DoxyCodeLine{131             std::unique\_lock<std::mutex> lk(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}});}
+\DoxyCodeLine{132             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}{cv}}.wait(lk);}
+\DoxyCodeLine{133             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}{shutdown}})}
+\DoxyCodeLine{134                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{135             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}-\/>\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_aa85d677b388e4993d6b323bba48da67d}{Clear}}();}
+\DoxyCodeLine{136             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aa448f2bf35519bf2aa2a70580e48ad6a}{recover\_instruments}})}
+\DoxyCodeLine{137                 \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9575d2816a2184cf96e3434d12bce01e}{instrumentrecovery}}();}
+\DoxyCodeLine{138             \textcolor{keyword}{auto} last = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a278d7fd2c6e5cefdd9dc2577ce7e2ad2}{datarecovery}}();}
+\DoxyCodeLine{139             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad02c2a1eefd4f4914334f1d897d9e807}{mp}}-\/>datarecoveryend(last);}
+\DoxyCodeLine{140         \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{146         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9d7bbbccd531118d6927c1187bed6fc9}{operator()}}()}
+\DoxyCodeLine{147         \{}
+\DoxyCodeLine{148             \textcolor{keywordflow}{while} (!\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}{shutdown}})}
+\DoxyCodeLine{149                 \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afdb8fb33ed689659adb390e550c0f209}{run\_recovery}}();}
+\DoxyCodeLine{150         \}}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{156         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afa990dcbcbd105e46d2d786cb38bd88d}{end}}()}
+\DoxyCodeLine{157         \{}
+\DoxyCodeLine{158             std::lock\_guard<std::mutex> lk(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}});}
+\DoxyCodeLine{159             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a47dc63fe98adb5f45ee4041a678b4f97}{shutdown}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{160             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ad21824a6d8328ae2a08c60b8187ceb91}{cv}}.notify\_one();}
+\DoxyCodeLine{161         \}}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{168         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a701e55f73ab1f74232caf3f0af8da796}{read\_dr}}() const noexcept}
+\DoxyCodeLine{169         \{}
+\DoxyCodeLine{170             \textcolor{keyword}{auto} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}} = \textcolor{keyword}{new} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}}();}
+\DoxyCodeLine{171             \textcolor{keyword}{auto} nrec = m2tech::mcast::receive(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\_dr}}, \&\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>message[0], \mbox{\hyperlink{namespacem2tech_1_1mdp3_a8dc1ab9753e2d5ef65fd97e942579b2a}{m2tech::mdp3::msgsz}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}{addr\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}{addrlen\_dr}}, \textcolor{keyword}{true});}
+\DoxyCodeLine{172             \textcolor{keywordflow}{if} (nrec == 0)}
+\DoxyCodeLine{173             \{}
+\DoxyCodeLine{174                 \textcolor{keyword}{delete} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}};}
+\DoxyCodeLine{175                 \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{176             \}}
+\DoxyCodeLine{177             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>len = nrec;}
+\DoxyCodeLine{178             \textcolor{keyword}{auto} seq\_num = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *)(\&\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>message[0]);}
+\DoxyCodeLine{179             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>seqnum = seq\_num;}
+\DoxyCodeLine{180             \textcolor{keywordflow}{return} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}};}
+\DoxyCodeLine{181         \}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{188         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}} *\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9b3526143213f16a17312f1ddbc53036}{read\_ir}}() const noexcept}
+\DoxyCodeLine{189         \{}
+\DoxyCodeLine{190             \textcolor{keyword}{auto} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}} = \textcolor{keyword}{new} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1message__buffer}{message\_buffer}}();}
+\DoxyCodeLine{191             \textcolor{keyword}{auto} nrec = m2tech::mcast::receive(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\_ir}}, \&\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>message[0], \mbox{\hyperlink{namespacem2tech_1_1mdp3_a8dc1ab9753e2d5ef65fd97e942579b2a}{m2tech::mdp3::msgsz}}, addr\_ir, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}{addrlen\_ir}}, \textcolor{keyword}{true});}
+\DoxyCodeLine{192             \textcolor{keywordflow}{if} (nrec == 0)}
+\DoxyCodeLine{193             \{}
+\DoxyCodeLine{194                 \textcolor{keyword}{delete} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}};}
+\DoxyCodeLine{195                 \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{196             \}}
+\DoxyCodeLine{197             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>len = nrec;}
+\DoxyCodeLine{198             \textcolor{keyword}{auto} seq\_num = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *)(\&\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>message[0]);}
+\DoxyCodeLine{199             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}}-\/>seqnum = seq\_num;}
+\DoxyCodeLine{200             \textcolor{keywordflow}{return} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6e481a383df8a279061543c55563c2c8}{m}};}
+\DoxyCodeLine{201         \}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{208         uint32\_t \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a278d7fd2c6e5cefdd9dc2577ce7e2ad2}{datarecovery}}() noexcept}
+\DoxyCodeLine{209         \{}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{212                 std::cout << \textcolor{stringliteral}{"{}DataRecoveryStart\(\backslash\)n"{}};}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214             m2tech::mcast::create\_udp\_socket(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ab59365b99c1d6cd8e361572d8c1f1eee}{port\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a6712b16591fbbb43429b6ccf6653e276}{addr\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_afbcdce9b63f57e4c014da1011df276d1}{addrlen\_dr}});}
+\DoxyCodeLine{215             m2tech::mcast::join\_group(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\_dr}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_ae06a84613df29d0a35ffbc8695bceee7}{group\_dr}}.c\_str(), \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}{interface}}.c\_str());}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217             uint curr\_seq\_num = 0;}
+\DoxyCodeLine{218             \textcolor{keywordtype}{bool} found\_first\_packet = \textcolor{keyword}{false};}
+\DoxyCodeLine{219             uint32\_t last\_seq\_num = 0;}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{221             uint32\_t numreports = std::numeric\_limits<uint32\_t>::max();}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223             \textcolor{keywordflow}{do}}
+\DoxyCodeLine{224             \{}
+\DoxyCodeLine{225             read\_next\_packet:}
+\DoxyCodeLine{226                 \textcolor{keyword}{auto} msg = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a701e55f73ab1f74232caf3f0af8da796}{read\_dr}}();}
+\DoxyCodeLine{227                 assert(msg);}
+\DoxyCodeLine{228                 \textcolor{keyword}{auto} databuf = \&msg-\/>message[0];}
+\DoxyCodeLine{229                 \textcolor{keyword}{auto} data\_start = databuf;}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231                 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{size\_t} sbe\_message\_header\_size = 10;}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233                 \textcolor{keyword}{auto} MsgSeqNum = *(uint32\_t *)(databuf);}
+\DoxyCodeLine{234 }
+\DoxyCodeLine{235                 \textcolor{comment}{//}}
+\DoxyCodeLine{236                 \textcolor{comment}{// have to wait for msg seq \# 1}}
+\DoxyCodeLine{237                 \textcolor{comment}{//}}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{239                 \textcolor{keywordflow}{if} (MsgSeqNum == 1)}
+\DoxyCodeLine{240                 \{}
+\DoxyCodeLine{241                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{242                         std::cout << \textcolor{stringliteral}{"{}found first packet\(\backslash\)n"{}};}
+\DoxyCodeLine{243                     found\_first\_packet = \textcolor{keyword}{true};}
+\DoxyCodeLine{244                 \}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246                 \textcolor{keywordflow}{if} (!found\_first\_packet)}
+\DoxyCodeLine{247                 \{}
+\DoxyCodeLine{248                     \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{249                     \textcolor{keywordflow}{goto} read\_next\_packet;}
+\DoxyCodeLine{250                 \}}
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252                 \textcolor{keywordflow}{if} (MsgSeqNum -\/ curr\_seq\_num > 1 \&\& MsgSeqNum != 1)}
+\DoxyCodeLine{253                 \{}
+\DoxyCodeLine{254                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{255                         std::cout << \textcolor{stringliteral}{"{}**** packet gap "{}}}
+\DoxyCodeLine{256                                   << \textcolor{stringliteral}{"{} MsgSeqNum "{}} << MsgSeqNum}
+\DoxyCodeLine{257                                   << \textcolor{stringliteral}{"{} curr\_seq\_num "{}} << curr\_seq\_num}
+\DoxyCodeLine{258                                   << \textcolor{stringliteral}{"{} numreports "{}} << numreports << std::endl;}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{260                     \textcolor{comment}{// have packet gap}}
+\DoxyCodeLine{261                     \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{262                     curr\_seq\_num = 0;}
+\DoxyCodeLine{263                     found\_first\_packet = \textcolor{keyword}{false};}
+\DoxyCodeLine{264                     numreports = std::numeric\_limits<uint32\_t>::max();}
+\DoxyCodeLine{265                     \textcolor{keywordflow}{goto} read\_next\_packet;}
+\DoxyCodeLine{266                 \}}
+\DoxyCodeLine{267 }
+\DoxyCodeLine{268                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{269                     std::cout << \textcolor{stringliteral}{"{}processing packet: "{}} << MsgSeqNum << \textcolor{stringliteral}{"{} numreports: "{}} << numreports << std::endl;}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{271                 curr\_seq\_num = MsgSeqNum;}
+\DoxyCodeLine{272                 databuf += \textcolor{keyword}{sizeof}(MsgSeqNum);}
+\DoxyCodeLine{273                 \textcolor{keyword}{auto} SendingTime = *(uint64\_t *)(databuf);}
+\DoxyCodeLine{274                 databuf += \textcolor{keyword}{sizeof}(SendingTime);}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276                 \textcolor{keywordflow}{while} (\textcolor{keywordtype}{size\_t}(databuf -\/ data\_start) < msg-\/>len)}
+\DoxyCodeLine{277                 \{}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279                     \textcolor{keyword}{auto} MsgSize = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{280                     databuf += \textcolor{keyword}{sizeof}(MsgSize);}
+\DoxyCodeLine{281                     \textcolor{keyword}{auto} BlockLength = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{282                     databuf += \textcolor{keyword}{sizeof}(BlockLength);}
+\DoxyCodeLine{283                     \textcolor{keyword}{auto} template\_id = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{284                     databuf += \textcolor{keyword}{sizeof}(template\_id);}
+\DoxyCodeLine{285                     \textcolor{keyword}{auto} SchemaID = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{286                     databuf += \textcolor{keyword}{sizeof}(SchemaID);}
+\DoxyCodeLine{287                     \textcolor{keyword}{auto} Version = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{288                     databuf += \textcolor{keyword}{sizeof}(Version);}
+\DoxyCodeLine{289                     databuf -\/= sbe\_message\_header\_size;}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{292                     \{}
+\DoxyCodeLine{293                         std::cout << \textcolor{stringliteral}{"{}datarecovery\_handler-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{294                         std::cout << \textcolor{stringliteral}{"{}MsgSeqNum "{}} << MsgSeqNum << \textcolor{stringliteral}{"{} MsgSize: "{}} << MsgSize << \textcolor{stringliteral}{"{} template\_id: "{}} << template\_id << \textcolor{stringliteral}{"{} SchemaID: "{}} << SchemaID << \textcolor{stringliteral}{"{} Version: "{}} << Version << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{295                         std::cout << \textcolor{stringliteral}{"{}databuf -\/ data\_start "{}} << (databuf -\/ data\_start) << \textcolor{stringliteral}{"{} msg-\/>len "{}} << msg-\/>len << std::endl;}
+\DoxyCodeLine{296                         std::cout << \textcolor{stringliteral}{"{}datarecovery\_handler-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{297                     \}}
+\DoxyCodeLine{298 }
+\DoxyCodeLine{299                     \textcolor{keywordflow}{if} (template\_id == 52)}
+\DoxyCodeLine{300                     \{}
+\DoxyCodeLine{301                         \textcolor{comment}{// mktdata::SnapshotFullRefresh52 rec;}}
+\DoxyCodeLine{302                     \}}
+\DoxyCodeLine{303                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (template\_id == 53)}
+\DoxyCodeLine{304                     \{}
+\DoxyCodeLine{305                         mktdata::SnapshotFullRefreshOrderBook53 rec;}
+\DoxyCodeLine{306                         rec.wrapForDecode(databuf, sbe\_message\_header\_size, BlockLength, Version, MsgSize);}
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308                         \textcolor{comment}{// not sure if try/catch needed}}
+\DoxyCodeLine{309                         \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{310                         \{}
+\DoxyCodeLine{311                             \textcolor{keywordflow}{try}}
+\DoxyCodeLine{312                             \{}
+\DoxyCodeLine{313                                 std::cout << rec << std::endl;}
+\DoxyCodeLine{314                             \}}
+\DoxyCodeLine{315                             \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{316                             \{}
+\DoxyCodeLine{317                                 std::cout << \textcolor{stringliteral}{"{}EXCEPTION PRINTING SnapshotFullRefreshOrderBook53\(\backslash\)n"{}};}
+\DoxyCodeLine{318                             \}}
+\DoxyCodeLine{319                         \}}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321                         \textcolor{keyword}{auto} tmp\_numreports = rec.totNumReports();}
+\DoxyCodeLine{322                         \textcolor{keywordflow}{if} (numreports != std::numeric\_limits<uint32\_t>::max())}
+\DoxyCodeLine{323                         \{}
+\DoxyCodeLine{324                             \textcolor{keywordflow}{if} (numreports != tmp\_numreports)}
+\DoxyCodeLine{325                             \{}
+\DoxyCodeLine{326                                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{327                                 \{}
+\DoxyCodeLine{328                                     std::cout << \textcolor{stringliteral}{"{}number of reports chnaged "{}} << numreports << \textcolor{stringliteral}{"{} to "{}} << tmp\_numreports << std::endl;}
+\DoxyCodeLine{329                                 \}}
+\DoxyCodeLine{330                                 \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{331                                 curr\_seq\_num = 0;}
+\DoxyCodeLine{332                                 found\_first\_packet = \textcolor{keyword}{false};}
+\DoxyCodeLine{333                                 numreports = std::numeric\_limits<uint32\_t>::max();}
+\DoxyCodeLine{334                                 \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}-\/>\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_aa85d677b388e4993d6b323bba48da67d}{Clear}}();}
+\DoxyCodeLine{335                                 \textcolor{keywordflow}{goto} read\_next\_packet;}
+\DoxyCodeLine{336                             \}}
+\DoxyCodeLine{337                         \}}
+\DoxyCodeLine{338                         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{339                             numreports = tmp\_numreports;}
+\DoxyCodeLine{340                         \textcolor{keyword}{auto} curr\_chunk = rec.currentChunk();}
+\DoxyCodeLine{341                         \textcolor{keyword}{auto} chunks = rec.noChunks();}
+\DoxyCodeLine{342                         \textcolor{keyword}{auto} secid = rec.securityID();}
+\DoxyCodeLine{343                         \textcolor{keyword}{auto} local\_last\_seq\_no = rec.lastMsgSeqNumProcessed();}
+\DoxyCodeLine{344 }
+\DoxyCodeLine{345                         \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{346                         \{}
+\DoxyCodeLine{347                             std::cout}
+\DoxyCodeLine{348                                 << \textcolor{stringliteral}{"{}secid "{}} << secid << \textcolor{stringliteral}{"{} "{}}}
+\DoxyCodeLine{349                                 << \textcolor{stringliteral}{"{} local\_last\_seq\_no "{}} << local\_last\_seq\_no}
+\DoxyCodeLine{350                                 << \textcolor{stringliteral}{"{} last\_seq\_num "{}} << last\_seq\_num}
+\DoxyCodeLine{351                                 << std::endl;}
+\DoxyCodeLine{352                         \}}
+\DoxyCodeLine{353 }
+\DoxyCodeLine{354                         last\_seq\_num = std::max(last\_seq\_num, local\_last\_seq\_no);}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{356                         \textcolor{keywordflow}{if} (chunks == curr\_chunk)}
+\DoxyCodeLine{357                         \{}
+\DoxyCodeLine{358                             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{359                                 std::cout << \textcolor{stringliteral}{"{}recovered book "{}} << secid << std::endl;}
+\DoxyCodeLine{360                             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}{recovered\_books}}.insert(secid);}
+\DoxyCodeLine{361                         \}}
+\DoxyCodeLine{362 }
+\DoxyCodeLine{363                         \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{364                         \{}
+\DoxyCodeLine{365                             std::cout << \textcolor{stringliteral}{"{}secid"{}} << secid << \textcolor{stringliteral}{"{}found chunk "{}} << curr\_chunk << \textcolor{stringliteral}{"{} numchunks "{}} << chunks << std::endl;}
+\DoxyCodeLine{366                             std::cout << \textcolor{stringliteral}{"{}curr\_chunk: "{}} << curr\_chunk << \textcolor{stringliteral}{"{} curr sec id "{}} << secid}
+\DoxyCodeLine{367                                       << \textcolor{stringliteral}{"{} last\_seq\_num "{}} << last\_seq\_num}
+\DoxyCodeLine{368                                       << \textcolor{stringliteral}{"{} local\_last\_seq\_no "{}} << local\_last\_seq\_no}
+\DoxyCodeLine{369                                       << std::endl;}
+\DoxyCodeLine{370                         \}}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{372                         \textcolor{keyword}{auto} txtim = rec.transactTime();}
+\DoxyCodeLine{373                         \textcolor{keyword}{auto} mdentries = rec.noMDEntries();}
+\DoxyCodeLine{374                         \textcolor{keywordflow}{while} (mdentries.hasNext())}
+\DoxyCodeLine{375                         \{}
+\DoxyCodeLine{376                             mdentries.next();}
+\DoxyCodeLine{377                             \textcolor{keyword}{auto} dispq = mdentries.mDDisplayQty();}
+\DoxyCodeLine{378                             \textcolor{keyword}{auto} px\_mantissa = mdentries.mDEntryPx().mantissa();}
+\DoxyCodeLine{379                             \textcolor{keyword}{auto} px\_exponent = mdentries.mDEntryPx().exponent();}
+\DoxyCodeLine{380                             \textcolor{keyword}{auto} mdEntryType = mdentries.mDEntryType();}
+\DoxyCodeLine{381                             \textcolor{keyword}{auto} order\_prio = mdentries.mDOrderPriority();}
+\DoxyCodeLine{382                             \textcolor{keyword}{auto} order\_id = mdentries.orderID();}
+\DoxyCodeLine{383                             \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}-\/>\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a7ee941c50ec11ea5951bcf81293f878e}{SnapshotFullRefreshOrderBook}}(}
+\DoxyCodeLine{384                                 MsgSeqNum,}
+\DoxyCodeLine{385                                 txtim,}
+\DoxyCodeLine{386                                 SendingTime,}
+\DoxyCodeLine{387                                 curr\_chunk,}
+\DoxyCodeLine{388                                 chunks,}
+\DoxyCodeLine{389                                 secid,}
+\DoxyCodeLine{390                                 dispq,}
+\DoxyCodeLine{391                                 px\_mantissa,}
+\DoxyCodeLine{392                                 px\_exponent,}
+\DoxyCodeLine{393                                 mdEntryType,}
+\DoxyCodeLine{394                                 order\_prio,}
+\DoxyCodeLine{395                                 order\_id);}
+\DoxyCodeLine{396                         \}}
+\DoxyCodeLine{397                     \}}
+\DoxyCodeLine{398                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{399                         abort();}
+\DoxyCodeLine{400 }
+\DoxyCodeLine{401                     databuf += MsgSize;}
+\DoxyCodeLine{402                 \}}
+\DoxyCodeLine{403 }
+\DoxyCodeLine{404                 \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{405 }
+\DoxyCodeLine{406                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{407                 \{}
+\DoxyCodeLine{408                     std::cout << \textcolor{stringliteral}{"{}reports recovered "{}} << \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}{recovered\_books}}.size() << \textcolor{stringliteral}{"{} out of "{}} << \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}{securities}}.size()}
+\DoxyCodeLine{409                               << \textcolor{stringliteral}{"{} expecting "{}} << numreports}
+\DoxyCodeLine{410                               << std::endl;}
+\DoxyCodeLine{411                 \}}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{413             \} \textcolor{keywordflow}{while} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a731ab78bd67625430c3194cc096fa649}{recovered\_books}}.size() < numreports);}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{415             close(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a07d00daa76d5f208d7f4136b3479af8c}{sock\_dr}});}
+\DoxyCodeLine{416 }
+\DoxyCodeLine{417             \textcolor{keywordflow}{return} last\_seq\_num;}
+\DoxyCodeLine{418         \}}
+\DoxyCodeLine{419 }
+\DoxyCodeLine{424         \textcolor{keywordtype}{void} \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9575d2816a2184cf96e3434d12bce01e}{instrumentrecovery}}() noexcept}
+\DoxyCodeLine{425         \{}
+\DoxyCodeLine{426 }
+\DoxyCodeLine{427             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{428                 std::cout << \textcolor{stringliteral}{"{}InstrumentRecoveryStart\(\backslash\)n"{}};}
+\DoxyCodeLine{429 }
+\DoxyCodeLine{430             m2tech::mcast::create\_udp\_socket(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a49236a6265eca857ff490f147b89178d}{port\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\_ir}}, addr\_ir, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_aac41b81a8832fc8d313d162d70bb686f}{addrlen\_ir}});}
+\DoxyCodeLine{431             m2tech::mcast::join\_group(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\_ir}}, \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a994d536cfb33078e5007280528bd4a66}{group\_ir}}.c\_str(), \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a2e4c693281d0d7d9f3422453cc7074c3}{interface}}.c\_str());}
+\DoxyCodeLine{432 }
+\DoxyCodeLine{433             std::vector<std::string> chunks\_processed;}
+\DoxyCodeLine{434             uint32\_t totnumreports;}
+\DoxyCodeLine{435             std::set<uint32\_t> seq\_num\_processed;}
+\DoxyCodeLine{436 }
+\DoxyCodeLine{437             totnumreports = std::numeric\_limits<u\_int32\_t>::max();}
+\DoxyCodeLine{438 }
+\DoxyCodeLine{439             \textcolor{keywordflow}{do}}
+\DoxyCodeLine{440             \{}
+\DoxyCodeLine{441                 \textcolor{keyword}{auto} msg = \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a9b3526143213f16a17312f1ddbc53036}{read\_ir}}();}
+\DoxyCodeLine{442                 assert(msg);}
+\DoxyCodeLine{443 }
+\DoxyCodeLine{444                 \textcolor{keyword}{auto} databuf = \&msg-\/>message[0];}
+\DoxyCodeLine{445                 \textcolor{keyword}{auto} data\_start = databuf;}
+\DoxyCodeLine{446 }
+\DoxyCodeLine{447                 \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} sbe\_message\_header\_size = 10;}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{449                 \textcolor{keyword}{auto} MsgSeqNum = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} *)(databuf);}
+\DoxyCodeLine{450                 databuf += \textcolor{keyword}{sizeof}(MsgSeqNum);}
+\DoxyCodeLine{451 }
+\DoxyCodeLine{452                 \textcolor{keyword}{auto} SendingTime = *(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} *)(databuf);}
+\DoxyCodeLine{453                 databuf += \textcolor{keyword}{sizeof}(SendingTime);}
+\DoxyCodeLine{454 }
+\DoxyCodeLine{455                 \textcolor{keyword}{auto} p = seq\_num\_processed.find(MsgSeqNum);}
+\DoxyCodeLine{456                 \textcolor{keywordflow}{if} (p != seq\_num\_processed.end())}
+\DoxyCodeLine{457                 \{}
+\DoxyCodeLine{458                     \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{459                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{460                 \}}
+\DoxyCodeLine{461 }
+\DoxyCodeLine{462                 seq\_num\_processed.insert(MsgSeqNum);}
+\DoxyCodeLine{463 }
+\DoxyCodeLine{464                 \textcolor{keywordflow}{while} (\textcolor{keywordtype}{size\_t}(databuf -\/ data\_start) < msg-\/>len)}
+\DoxyCodeLine{465                 \{}
+\DoxyCodeLine{466 }
+\DoxyCodeLine{467                     \textcolor{keyword}{auto} MsgSize = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{468                     databuf += \textcolor{keyword}{sizeof}(MsgSize);}
+\DoxyCodeLine{469 }
+\DoxyCodeLine{470                     \textcolor{keywordflow}{if} (MsgSize == 0)}
+\DoxyCodeLine{471                     \{}
+\DoxyCodeLine{472                         std::cerr << \textcolor{stringliteral}{"{}instrumentrecovery\_handler got message size 0\(\backslash\)n"{}};}
+\DoxyCodeLine{473                         abort();}
+\DoxyCodeLine{474                     \}}
+\DoxyCodeLine{475 }
+\DoxyCodeLine{476                     \textcolor{keyword}{auto} BlockLength = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{477                     databuf += \textcolor{keyword}{sizeof}(BlockLength);}
+\DoxyCodeLine{478 }
+\DoxyCodeLine{479                     \textcolor{keyword}{auto} template\_id = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{480                     databuf += \textcolor{keyword}{sizeof}(template\_id);}
+\DoxyCodeLine{481 }
+\DoxyCodeLine{482                     \textcolor{keyword}{auto} SchemaID = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{483                     databuf += \textcolor{keyword}{sizeof}(SchemaID);}
+\DoxyCodeLine{484 }
+\DoxyCodeLine{485                     \textcolor{keyword}{auto} Version = *(uint16\_t *)(databuf);}
+\DoxyCodeLine{486                     databuf += \textcolor{keyword}{sizeof}(Version);}
+\DoxyCodeLine{487 }
+\DoxyCodeLine{488                     databuf -\/= sbe\_message\_header\_size;}
+\DoxyCodeLine{489 }
+\DoxyCodeLine{490                     \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{491                     \{}
+\DoxyCodeLine{492                         std::cout << \textcolor{stringliteral}{"{}instrumentrecovery\_handler-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{493                         std::cout << \textcolor{stringliteral}{"{}MsgSize: "{}} << MsgSize << \textcolor{stringliteral}{"{} template\_id: "{}} << template\_id << \textcolor{stringliteral}{"{} SchemaID: "{}} << SchemaID << \textcolor{stringliteral}{"{} Version: "{}} << Version << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{494                         std::cout << \textcolor{stringliteral}{"{}processed: "{}} << (databuf -\/ data\_start) << \textcolor{stringliteral}{"{} len: "{}} << msg-\/>len << std::endl;}
+\DoxyCodeLine{495                         std::cout << \textcolor{stringliteral}{"{}num chunks so far "{}} << chunks\_processed.size() << \textcolor{stringliteral}{"{} excpected: "{}} << totnumreports << std::endl;}
+\DoxyCodeLine{496                         std::cout << \textcolor{stringliteral}{"{}instrumentrecovery\_handler-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\(\backslash\)n"{}};}
+\DoxyCodeLine{497                     \}}
+\DoxyCodeLine{498 }
+\DoxyCodeLine{499                     \textcolor{keywordflow}{if} (template\_id == 54)}
+\DoxyCodeLine{500                     \{}
+\DoxyCodeLine{501                         mktdata::MDInstrumentDefinitionFuture54 def;}
+\DoxyCodeLine{502                         def.wrapForDecode(databuf, sbe\_message\_header\_size, BlockLength, Version, MsgSize);}
+\DoxyCodeLine{503 }
+\DoxyCodeLine{504                         \textcolor{comment}{// not sure if try/catch needed}}
+\DoxyCodeLine{505                         \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{506                         \{}
+\DoxyCodeLine{507                             \textcolor{keywordflow}{try}}
+\DoxyCodeLine{508                             \{}
+\DoxyCodeLine{509                                 std::cout << def << std::endl;}
+\DoxyCodeLine{510                             \}}
+\DoxyCodeLine{511                             \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{512                             \{}
+\DoxyCodeLine{513                                 std::cout << \textcolor{stringliteral}{"{}EXCEPTION PRINTING MDInstrumentDefinitionFuture54\(\backslash\)n"{}};}
+\DoxyCodeLine{514                             \}}
+\DoxyCodeLine{515                         \}}
+\DoxyCodeLine{516 }
+\DoxyCodeLine{517                         \textcolor{keyword}{auto} sym = def.symbol();}
+\DoxyCodeLine{518                         chunks\_processed.push\_back(sym);}
+\DoxyCodeLine{519                         \textcolor{keyword}{auto} asset = def.asset();}
+\DoxyCodeLine{520                         \textcolor{keyword}{auto} cfiCode = def.cFICode();}
+\DoxyCodeLine{521                         \textcolor{keyword}{auto} high\_limit\_px\_mantissa = def.highLimitPrice().mantissa();}
+\DoxyCodeLine{522                         \textcolor{keyword}{auto} high\_limit\_px\_exponent = def.highLimitPrice().exponent();}
+\DoxyCodeLine{523                         \textcolor{keyword}{auto} low\_limit\_px\_mantissa = def.lowLimitPrice().mantissa();}
+\DoxyCodeLine{524                         \textcolor{keyword}{auto} low\_limit\_px\_exponent = def.lowLimitPrice().exponent();}
+\DoxyCodeLine{525                         \textcolor{keyword}{auto} pxvar\_mantissa = def.maxPriceVariation().mantissa();}
+\DoxyCodeLine{526                         \textcolor{keyword}{auto} pxvar\_exponent = def.maxPriceVariation().exponent();}
+\DoxyCodeLine{527                         \textcolor{keyword}{auto} sec\_id = def.securityID();}
+\DoxyCodeLine{528                         \textcolor{keyword}{auto} sec\_update\_action = def.securityUpdateAction();}
+\DoxyCodeLine{529                         \textcolor{keyword}{auto} trading\_status = def.mDSecurityTradingStatus();}
+\DoxyCodeLine{530                         \textcolor{keyword}{auto} sec\_group = def.securityGroup();}
+\DoxyCodeLine{531                         \textcolor{keyword}{auto} mkt\_seg = def.marketSegmentID();}
+\DoxyCodeLine{532 }
+\DoxyCodeLine{533                         totnumreports = def.totNumReports();}
+\DoxyCodeLine{534 }
+\DoxyCodeLine{535                         uint64\_t activation = 0, expiration = 0;}
+\DoxyCodeLine{536                         \textcolor{keyword}{auto} events = def.noEvents();}
+\DoxyCodeLine{537                         \textcolor{keywordflow}{while} (events.hasNext())}
+\DoxyCodeLine{538                         \{}
+\DoxyCodeLine{539                             events.next();}
+\DoxyCodeLine{540                             \textcolor{keyword}{auto} evtime = events.eventTime();}
+\DoxyCodeLine{541                             \textcolor{keyword}{auto} evid = events.eventType();}
+\DoxyCodeLine{542                             \textcolor{keywordflow}{if} (evid == 5)}
+\DoxyCodeLine{543                             \{}
+\DoxyCodeLine{544                                 activation = evtime;}
+\DoxyCodeLine{545                             \}}
+\DoxyCodeLine{546                             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (evid == 7)}
+\DoxyCodeLine{547                             \{}
+\DoxyCodeLine{548                                 expiration = evtime;}
+\DoxyCodeLine{549                             \}}
+\DoxyCodeLine{550                             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{551                                 abort();}
+\DoxyCodeLine{552                         \}}
+\DoxyCodeLine{553 }
+\DoxyCodeLine{554                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a840e8ce62ef813d8aa48af26fd954e3f}{cb}}-\/>\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_call_back_i_f_a87af4273a641588e1e1b68e85cbeec8a}{MDInstrumentDefinitionFuture}}(}
+\DoxyCodeLine{555                             MsgSeqNum,}
+\DoxyCodeLine{556                             SendingTime,}
+\DoxyCodeLine{557                             sym,}
+\DoxyCodeLine{558                             asset,}
+\DoxyCodeLine{559                             cfiCode,}
+\DoxyCodeLine{560                             high\_limit\_px\_mantissa,}
+\DoxyCodeLine{561                             high\_limit\_px\_exponent,}
+\DoxyCodeLine{562                             low\_limit\_px\_mantissa,}
+\DoxyCodeLine{563                             low\_limit\_px\_exponent,}
+\DoxyCodeLine{564                             pxvar\_mantissa,}
+\DoxyCodeLine{565                             pxvar\_exponent,}
+\DoxyCodeLine{566                             sec\_id,}
+\DoxyCodeLine{567                             sec\_update\_action,}
+\DoxyCodeLine{568                             trading\_status,}
+\DoxyCodeLine{569                             activation,}
+\DoxyCodeLine{570                             expiration,}
+\DoxyCodeLine{571                             sec\_group,}
+\DoxyCodeLine{572                             mkt\_seg);}
+\DoxyCodeLine{573 }
+\DoxyCodeLine{574                         \mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a486d786bbb3479cf7c4b1db74db0e7c0}{securities}}[sec\_id] = std::string(sym);}
+\DoxyCodeLine{575                     \}}
+\DoxyCodeLine{576                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (template\_id == 56)}
+\DoxyCodeLine{577                     \{}
+\DoxyCodeLine{578                         chunks\_processed.push\_back(\textcolor{stringliteral}{"{}spread"{}});}
+\DoxyCodeLine{579                     \}}
+\DoxyCodeLine{580                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{581                     \{}
+\DoxyCodeLine{582                         std::cerr << \textcolor{stringliteral}{"{}unkonwn template id "{}} << template\_id}
+\DoxyCodeLine{583                                   << std::endl;}
+\DoxyCodeLine{584                         abort();}
+\DoxyCodeLine{585                     \}}
+\DoxyCodeLine{586 }
+\DoxyCodeLine{587                     databuf += MsgSize;}
+\DoxyCodeLine{588                 \}}
+\DoxyCodeLine{589 }
+\DoxyCodeLine{590                 \textcolor{keyword}{delete} msg;}
+\DoxyCodeLine{591 }
+\DoxyCodeLine{592             \} \textcolor{keywordflow}{while} (chunks\_processed.size() < totnumreports);}
+\DoxyCodeLine{593 }
+\DoxyCodeLine{594             \textcolor{keywordflow}{if} (\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_a1bd365e394d0799065edb0ea4910805b}{debug}})}
+\DoxyCodeLine{595                 std::cout << \textcolor{stringliteral}{"{}InstrumentRecoveryEnd\(\backslash\)n"{}};}
+\DoxyCodeLine{596 }
+\DoxyCodeLine{597             close(\mbox{\hyperlink{structm2tech_1_1mdp3_1_1_recovery_processor_accfe88302d2b3b7b622aa77c7e8e934d}{sock\_ir}});}
+\DoxyCodeLine{598         \}}
+\DoxyCodeLine{599     \};}
+\DoxyCodeLine{600 }
+\DoxyCodeLine{601 \}}
+
+\end{DoxyCode}

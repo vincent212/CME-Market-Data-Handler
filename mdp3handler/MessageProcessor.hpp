@@ -49,31 +49,35 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mdp3
 {
 
-    class MessageProcessor
+    /**
+     * @brief Process messages from CME
+     * 
+     */
+    struct MessageProcessor
     {
 
-    private:
         RecoveryProcessor<MessageProcessor> *recovery_processor;
         DataDecoder decoder;
         std::map<uint32_t, message_buffer *> msg_q;
-
         in_port_t port_a, port_b;
         int sock_a, sock_b;
         struct sockaddr_in addr_a;
         struct sockaddr_in addr_b;
         size_t addrlen_a, addrlen_b;
         std::string group_a, group_b, interface;
-
         bool dorecovery = false;
-
         bool in_recovery = false;
         bool have_instruments = false;
         bool recoveryonstart = false;
-
         uint32_t qseq_num = 0;
-
         bool shutdown = false;
 
+        /**
+         * @brief Read from channel A
+         * 
+         * @param seq_num 
+         * @return message_buffer* 
+         */
         message_buffer *read_a(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
@@ -89,6 +93,12 @@ namespace m2tech::mdp3
             return m;
         }
 
+        /**
+         * @brief Read from channel B
+         * 
+         * @param seq_num 
+         * @return message_buffer* 
+         */
         message_buffer *read_b(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
@@ -104,7 +114,19 @@ namespace m2tech::mdp3
             return m;
         }
 
-    public:
+        /**
+         * @brief Construct a new Message Processor object
+         * 
+         * @param _cb application object that implements call back behavior
+         * @param _port_a 
+         * @param _port_b 
+         * @param _groupa 
+         * @param _groupb 
+         * @param _interface interface handler is listening on
+         * @param _dorecovery whether to do data recover on gaps
+         * @param _recoveryonstart whether to trigger recover on join
+         * @param _debug 
+         */
         MessageProcessor(
             CallBackIF *_cb,
             in_port_t _port_a,
@@ -126,11 +148,20 @@ namespace m2tech::mdp3
         {
         }
 
+        /**
+         * @brief Set the recovery processor object
+         * 
+         * @param rec 
+         */
         void set_recovery_processor(m2tech::mdp3::RecoveryProcessor<MessageProcessor> *rec)
         {
             recovery_processor = rec;
         }
 
+        /**
+         * @brief Join multicast A and B
+         * 
+         */
         void connect() noexcept
         {
             // port a and b are mc ports
@@ -142,13 +173,21 @@ namespace m2tech::mdp3
             shutdown = false;
         }
 
+        /**
+         * @brief Thread
+         * 
+         */
         void operator()()
         {
             while (!shutdown)
                 read_sockets();
         }
 
-    private:
+        /**
+         * @brief Read multicast data from channels A and B
+         * Messagges are added to message queue then a call to processq() is made
+         * @see processq()
+         */
         void read_sockets() noexcept
         {
 
@@ -215,6 +254,11 @@ namespace m2tech::mdp3
                 processq(recv_ts);
         }
 
+        /**
+         * @brief Process binary message queue from channels A and B
+         * 
+         * @param ts receive time stamp
+         */
         void processq(uint64_t ts) noexcept
         {
 
@@ -271,7 +315,12 @@ namespace m2tech::mdp3
             }
         }
 
-    public:
+        /**
+         * @brief Signal that recovery is complete.
+         * @see RecoveryProcessor()
+         * 
+         * @param last_seq 
+         */
         void datarecoveryend(uint32_t last_seq) noexcept
         {
             std::cout << "RECOVERY DONE\n";
@@ -279,6 +328,10 @@ namespace m2tech::mdp3
             in_recovery = false;
         }
 
+        /**
+         * @brief Stop the thread
+         * 
+         */
         void
         end() noexcept
         {

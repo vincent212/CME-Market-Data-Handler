@@ -51,8 +51,16 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mcast
 {
 
+   /**
+    * @brief Create a multicast socket
+    * 
+    * @param port multicast port
+    * @param sock 
+    * @param addr 
+    * @param addrlen 
+    */
    static void create_udp_socket(
-       in_port_t port, // multicast port
+       in_port_t port,
        int &sock,
        struct sockaddr_in &addr,
        size_t &addrlen)
@@ -75,7 +83,14 @@ namespace m2tech::mcast
       }
    }
 
-   static auto join_group(
+   /**
+    * @brief join multicast group
+    * 
+    * @param sock 
+    * @param group 
+    * @param inf pass the interface where mcast packets are received
+    */
+   static void join_group(
        int sock,
        const char *group,
        const char *inf = 0)
@@ -95,26 +110,17 @@ namespace m2tech::mcast
       }
    }
 
-   static auto send_to_socket(
-       int sock,
-       const char *message,
-       size_t len,
-       const struct sockaddr_in &addr,
-       size_t addrlen)
-   {
-      auto cnt = sendto(sock, message, len, 0,
-                        (struct sockaddr *)&addr, addrlen);
-      if (cnt < 0)
-      {
-         perror("sendto");
-         abort();
-      }
-      return cnt;
-   }
-
-   //
-   // note: datagrams are always received completely
-   //
+   /**
+    * @brief Receive multicast message
+    * note: datagrams are always received completely
+    * @param sock 
+    * @param message 
+    * @param len 
+    * @param addr 
+    * @param addrlen 
+    * @param block if true will block when no data is read
+    * @return ssize_t number of bytes read
+    */
    static ssize_t receive(
        int sock,
        const char *message,
@@ -124,7 +130,7 @@ namespace m2tech::mcast
        bool block = false)
    {
 
-      // change this to fcntl no O_NONBLOCK ?
+      // todo: change this to fcntl no O_NONBLOCK ?
 
       int flags = 0;
       if (!block)

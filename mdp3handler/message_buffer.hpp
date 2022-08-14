@@ -45,6 +45,12 @@ namespace m2tech::mdp3
     // maximum size of udp message is 65507
     constexpr size_t msgsz = 66000;
 
+    // todo: the buffer needs to be memory pooled
+
+    /**
+     * @brief Buffer to store multicast messages
+     * 
+     */
     struct message_buffer
     {
         uint32_t seqnum;

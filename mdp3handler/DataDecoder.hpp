@@ -58,9 +58,17 @@ https://opensource.org/licenses/MIT
 namespace m2tech::mdp3
 {
 
+    /**
+     * @brief This class transforms binary data into SBE data structures.
+     * 
+     */
     struct DataDecoder
     {
 
+        /**
+         * @brief Repeating group type
+         * 
+         */
         typedef struct
         {
             int32_t secid;
@@ -74,11 +82,24 @@ namespace m2tech::mdp3
         CallBackIF *cb;
         bool debug = false;
 
+        /**
+         * @brief Construct a new Data Decoder object
+         * 
+         * @param _cb callback object that implements message processing logic
+         * @param _debug turn on debugging
+         */
         DataDecoder(CallBackIF *_cb, bool _debug) : cb(_cb), debug(_debug)
         {
             g1.reserve(1024);
         }
 
+        /**
+         * @brief Transform binary data into a SBE data structure
+         * 
+         * @param databuf binary data
+         * @param len length
+         * @param ts timestamp
+         */
         void mbo_data(char *databuf, size_t len, uint64_t ts)
         {
             auto data_start = databuf;
@@ -87,7 +108,6 @@ namespace m2tech::mdp3
 
             auto MsgSeqNum = *(uint32_t *)(databuf);
             databuf += sizeof(MsgSeqNum);
-
             auto SendingTime = *(uint64_t *)(databuf);
             databuf += sizeof(SendingTime);
 
@@ -101,16 +121,12 @@ namespace m2tech::mdp3
 
                 auto MsgSize = *(uint16_t *)(databuf);
                 databuf += sizeof(MsgSize);
-
                 auto BlockLength = *(uint16_t *)(databuf);
                 databuf += sizeof(BlockLength);
-
                 auto tempalate_id = *(uint16_t *)(databuf);
                 databuf += sizeof(tempalate_id);
-
                 auto SchemaID = *(uint16_t *)(databuf);
                 databuf += sizeof(SchemaID);
-
                 auto Version = *(uint16_t *)(databuf);
                 databuf += sizeof(Version);
 
@@ -523,6 +539,10 @@ namespace m2tech::mdp3
             }
         }
 
+        /**
+         * @brief Called from MessageProcessor to clear order books after a gap.
+         * 
+         */
         void clear()
         {
             cb->Clear();
