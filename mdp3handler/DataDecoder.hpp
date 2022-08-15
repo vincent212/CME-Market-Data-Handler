@@ -76,6 +76,9 @@ namespace m2tech::mdp3
             int8_t px_exponent;
             uint32_t seq;
             uint8_t side;
+            uint32_t sz;
+            int32_t numorders;
+            uint8_t pxlevel;
         } repg1_t;
 
         std::vector<repg1_t> g1;
@@ -164,7 +167,25 @@ namespace m2tech::mdp3
                         g.px_exponent = noMDEntries.mDEntryPx().exponent();
                         g.seq = noMDEntries.rptSeq();
                         g.side = noMDEntries.mDEntryType();
+                        g.sz = noMDEntries.mDEntrySize();
+                        g.numorders = noMDEntries.numberOfOrders();
+                        g.pxlevel = noMDEntries.mDPriceLevel();
                         g1.push_back(g);
+                        cb->MDIncrementalRefreshBook(
+                            ts,
+                            MsgSeqNum,
+                            txtim,
+                            SendingTime,
+                            g.secid,
+                            g.px_mantissa,
+                            g.px_exponent,
+                            g.side,
+                            g.sz,
+                            g.numorders,
+                            g.pxlevel,
+                            matchevent.endOfEvent(),
+                            matchevent.recoveryMsg()
+                        );
                     }
                     auto oidentries = incr.noOrderIDEntries();
 
@@ -176,7 +197,6 @@ namespace m2tech::mdp3
                         auto act = oidentries.orderUpdateAction();
                         auto prio = oidentries.mDOrderPriority();
                         auto idx = oidentries.referenceID();
-
                         cb->MDIncrementalRefreshBook(
                             ts,
                             MsgSeqNum,
@@ -213,6 +233,27 @@ namespace m2tech::mdp3
                     {
                         noMDEntries.next();
                         securityId = noMDEntries.securityID();
+                        auto px_mant = noMDEntries.mDEntryPx().mantissa();
+                        auto px_exp = noMDEntries.mDEntryPx().exponent();
+                        auto side = noMDEntries.mDEntryType();
+                        auto aggr_side = noMDEntries.aggressorSide();
+                        auto sz = noMDEntries.mDEntrySize();
+                        auto numorders = noMDEntries.numberOfOrders();
+                        cb->MDIncrementalRefreshTradeSummary(
+                            ts,
+                            MsgSeqNum,
+                            txtim,
+                            SendingTime,
+                            securityId,
+                            px_mant,
+                            px_exp,
+                            *side,
+                            aggr_side,
+                            sz,
+                            numorders,
+                            matchevent.lastTradeMsg(),
+                            matchevent.endOfEvent()
+                        );
                     }
 
                     auto oidentries = trade.noOrderIDEntries();

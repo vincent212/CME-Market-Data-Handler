@@ -41,13 +41,30 @@ https://opensource.org/licenses/MIT
 #include "CallBackIF.hpp"
 
 /**
- * @brief Application must fill in the blanks 
- * 
+ * @brief Application must fill in the blanks
+ *
  */
 struct CallBackImpl : public m2tech::mdp3::CallBackIF
 {
 
     CallBackImpl()
+    {
+    }
+
+    virtual void MDIncrementalRefreshBook(
+        uint64_t recv_time,
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        uint32_t securityID,
+        int64_t px_mantissa,
+        int8_t px_exponent,
+        char side,
+        int32_t sz,
+        int32_t numorders,
+        uint8_t pxlevel,
+        bool endOfEvent,
+        bool recovery) noexcept override
     {
     }
 
@@ -66,6 +83,23 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
         uint64_t priority,
         bool endOfEvent,
         bool recovery) noexcept override
+    {
+    }
+
+    virtual void MDIncrementalRefreshTradeSummary(
+        uint64_t recv_time,
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t securityID,
+        int64_t px_mantissa,
+        int8_t px_exponent,
+        char side,
+        uint8_t aggressor_side,
+        int32_t sz,
+        int32_t numorders,
+        bool lastTrade,
+        bool endofEvent) noexcept override
     {
     }
 
@@ -114,6 +148,20 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
         uint64_t expiration,
         char *sec_group,
         uint8_t seg_id) noexcept override
+    {
+    }
+
+    virtual void SnapshotFullRefresh(
+        uint32_t msgSeqNum,
+        uint64_t transactTime,
+        uint64_t sendingTime,
+        int32_t securityID,
+        int64_t px_mantissa,
+        int64_t px_exponent,
+        uint32_t sz,
+        int8_t px_level,
+        int32_t numorders,
+        char side) noexcept override
     {
     }
 

@@ -56,7 +56,7 @@ namespace m2tech::mdp3
 
     /**
      * @brief Recover from gaps or on join
-     * 
+     *
      * @tparam MP MessageProcessor
      */
     template <typename MP>
@@ -80,13 +80,13 @@ namespace m2tech::mdp3
 
         /**
          * @brief Construct a new Recovery Processor object
-         * 
+         *
          * @param _mp the MessageProcessor
          * @param _cb callback object implementing application logic
-         * @param _port_dr 
-         * @param _port_ir 
-         * @param _group_dr 
-         * @param _group_ir 
+         * @param _port_dr
+         * @param _port_ir
+         * @param _group_dr
+         * @param _group_ir
          * @param _interface interface we are listening on
          * @param _debug print all messages
          */
@@ -112,8 +112,8 @@ namespace m2tech::mdp3
 
         /**
          * @brief Notify this thread that a recovery should start.
-         * 
-         * @param _recover_instruments 
+         *
+         * @param _recover_instruments
          */
         void do_recovery(bool _recover_instruments)
         {
@@ -124,7 +124,7 @@ namespace m2tech::mdp3
 
         /**
          * @brief Wait for cond var and run instrument and data recovery
-         * 
+         *
          */
         void run_recovery() noexcept
         {
@@ -141,7 +141,7 @@ namespace m2tech::mdp3
 
         /**
          * @brief Thread
-         * 
+         *
          */
         void operator()()
         {
@@ -151,7 +151,7 @@ namespace m2tech::mdp3
 
         /**
          * @brief Stop the thread
-         * 
+         *
          */
         void end()
         {
@@ -162,8 +162,8 @@ namespace m2tech::mdp3
 
         /**
          * @brief Read from data recovery multicast port
-         * 
-         * @return message_buffer* 
+         *
+         * @return message_buffer*
          */
         message_buffer *read_dr() const noexcept
         {
@@ -182,8 +182,8 @@ namespace m2tech::mdp3
 
         /**
          * @brief Read from instrument recovery multicast port
-         * 
-         * @return message_buffer* 
+         *
+         * @return message_buffer*
          */
         message_buffer *read_ir() const noexcept
         {
@@ -202,7 +202,7 @@ namespace m2tech::mdp3
 
         /**
          * @brief Do data recovery
-         * 
+         *
          * @return uint32_t last sequence number recovered
          */
         uint32_t datarecovery() noexcept
@@ -298,7 +298,47 @@ namespace m2tech::mdp3
 
                     if (template_id == 52)
                     {
-                        // mktdata::SnapshotFullRefresh52 rec;
+                        mktdata::SnapshotFullRefresh52 rec;
+                        rec.wrapForDecode(databuf, sbe_message_header_size, BlockLength, Version, MsgSize);
+
+                        // not sure if try/catch needed
+                        if (debug)
+                        {
+                            try
+                            {
+                                std::cout << rec << std::endl;
+                            }
+                            catch (...)
+                            {
+                                std::cout << "EXCEPTION PRINTING SnapshotFullRefresh52\n";
+                            }
+                        }
+
+                        rec.noMDEntries();
+                        auto txtim = rec.transactTime();
+                        auto sec_id = rec.securityID();
+                        auto mdentries = rec.noMDEntries();
+                        while (mdentries.hasNext())
+                        {
+                            mdentries.next();
+                            auto px_mant = mdentries.mDEntryPx().mantissa();
+                            auto px_exp = mdentries.mDEntryPx().exponent();
+                            auto sz = mdentries.mDEntrySize();
+                            auto pxlevel = mdentries.mDPriceLevel();
+                            auto numorders = mdentries.numberOfOrders();
+                            auto side = mdentries.mDEntryType();
+                            cb->SnapshotFullRefresh(
+                                MsgSeqNum,
+                                txtim,
+                                SendingTime,
+                                sec_id,
+                                px_mant,
+                                px_exp,
+                                sz,
+                                pxlevel,
+                                numorders,
+                                side);
+                        }
                     }
                     else if (template_id == 53)
                     {
@@ -419,7 +459,7 @@ namespace m2tech::mdp3
 
         /**
          * @brief Do instrument recovery
-         * 
+         *
          */
         void instrumentrecovery() noexcept
         {

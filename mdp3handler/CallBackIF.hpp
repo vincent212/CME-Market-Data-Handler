@@ -58,6 +58,21 @@ namespace m2tech::mdp3
     {
 
         virtual void MDIncrementalRefreshBook(
+            uint64_t recv_time, 
+            uint32_t msgSeqNum,
+            uint64_t transactTime,
+            uint64_t sendingTime,
+            uint32_t securityID,
+            int64_t px_mantissa,
+            int8_t px_exponent,
+            char side,
+            int32_t sz,
+            int32_t numorders,
+            uint8_t pxlevel,
+            bool endOfEvent,
+            bool recovery) noexcept = 0;
+
+        virtual void MDIncrementalRefreshBook(
             uint64_t recv_time,
             uint32_t msgSeqNum,
             uint64_t transactTime,
@@ -72,6 +87,21 @@ namespace m2tech::mdp3
             uint64_t priority,
             bool endOfEvent,
             bool recovery) noexcept = 0;
+
+        virtual void MDIncrementalRefreshTradeSummary(
+            uint64_t recv_time, 
+            uint32_t msgSeqNum,
+            uint64_t transactTime,
+            uint64_t sendingTime,
+            int32_t securityID,
+            int64_t px_mantissa,
+            int8_t px_exponent,
+            char side,
+            uint8_t aggressor_side,
+            int32_t sz,
+            int32_t numorders,
+            bool lastTrade,
+            bool endofEvent) noexcept = 0;
 
         virtual void MDIncrementalRefreshTradeSummary(
             uint64_t recv_time,
@@ -120,6 +150,18 @@ namespace m2tech::mdp3
             uint64_t transactTime,
             uint64_t sendingTime,
             const char *mdEntryType) noexcept = 0;
+
+        virtual void SnapshotFullRefresh(
+            uint32_t msgSeqNum,
+            uint64_t transactTime,
+            uint64_t sendingTime,
+            int32_t securityID,
+            int64_t px_mantissa,
+            int64_t px_exponent,
+            uint32_t sz,
+            int8_t px_level,
+            int32_t numorders,
+            char side) noexcept = 0;
 
         virtual void SnapshotFullRefreshOrderBook(
             uint32_t msgSeqNum,
