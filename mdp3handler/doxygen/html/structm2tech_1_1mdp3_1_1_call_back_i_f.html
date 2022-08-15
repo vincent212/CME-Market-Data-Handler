@@ -74,8 +74,12 @@ $(document).ready(function(){initNavTree('structm2tech_1_1mdp3_1_1_call_back_i_f
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ad235e94219140d53fdf3b336531f190f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structm2tech_1_1mdp3_1_1_call_back_i_f.html#ad235e94219140d53fdf3b336531f190f">MDIncrementalRefreshBook</a> (uint64_t recv_time, uint32_t msgSeqNum, uint64_t transactTime, uint64_t sendingTime, uint32_t securityID, int64_t px_mantissa, int8_t px_exponent, char side, int32_t sz, int32_t numorders, uint8_t pxlevel, bool endOfEvent, bool recovery) noexcept=0</td></tr>
+<tr class="separator:ad235e94219140d53fdf3b336531f190f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad312aa16159c3562d09162417385e0f5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structm2tech_1_1mdp3_1_1_call_back_i_f.html#ad312aa16159c3562d09162417385e0f5">MDIncrementalRefreshBook</a> (uint64_t recv_time, uint32_t msgSeqNum, uint64_t transactTime, uint64_t sendingTime, uint32_t securityID, int64_t px_mantissa, int8_t px_exponent, char side, int32_t displayQty, uint64_t orderID, uint8_t orderUpdateAction, uint64_t priority, bool endOfEvent, bool recovery) noexcept=0</td></tr>
 <tr class="separator:ad312aa16159c3562d09162417385e0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0b4729452c44beef43d30d3062823e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structm2tech_1_1mdp3_1_1_call_back_i_f.html#abc0b4729452c44beef43d30d3062823e">MDIncrementalRefreshTradeSummary</a> (uint64_t recv_time, uint32_t msgSeqNum, uint64_t transactTime, uint64_t sendingTime, int32_t securityID, int64_t px_mantissa, int8_t px_exponent, char side, uint8_t aggressor_side, int32_t sz, int32_t numorders, bool lastTrade, bool endofEvent) noexcept=0</td></tr>
+<tr class="separator:abc0b4729452c44beef43d30d3062823e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac058769c169c6ee7c7ef110fff7e2102"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structm2tech_1_1mdp3_1_1_call_back_i_f.html#ac058769c169c6ee7c7ef110fff7e2102">MDIncrementalRefreshTradeSummary</a> (uint64_t recv_time, uint32_t msgSeqNum, uint64_t transactTime, uint64_t sendingTime, int32_t lastQty, uint64_t orderID, int32_t securityID, bool lastTrade, bool endofEvent) noexcept=0</td></tr>
 <tr class="separator:ac058769c169c6ee7c7ef110fff7e2102"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf64a44acd21bfa3c5c28105f5e2a1a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structm2tech_1_1mdp3_1_1_call_back_i_f.html#adf64a44acd21bfa3c5c28105f5e2a1a7">MDIncrementalRefreshSessionStatistics</a> (uint32_t msgSeqNum, uint64_t transactTime, uint64_t sendingTime, uint32_t secid, uint8_t openCloseSettleFlag, int64_t px_mantissa, int64_t px_exponent, uint8_t updateAction, char entryType) noexcept=0</td></tr>
@@ -183,7 +187,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad312aa16159c3562d09162417385e0f5" name="ad312aa16159c3562d09162417385e0f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad312aa16159c3562d09162417385e0f5">&#9670;&nbsp;</a></span>MDIncrementalRefreshBook()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad312aa16159c3562d09162417385e0f5">&#9670;&nbsp;</a></span>MDIncrementalRefreshBook() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,6 +293,110 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="struct_call_back_impl.html#a96b319bb6d86e73f6800f4b81828039c">CallBackImpl</a>.</p>
+
+</div>
+</div>
+<a id="ad235e94219140d53fdf3b336531f190f" name="ad235e94219140d53fdf3b336531f190f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad235e94219140d53fdf3b336531f190f">&#9670;&nbsp;</a></span>MDIncrementalRefreshBook() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void m2tech::mdp3::CallBackIF::MDIncrementalRefreshBook </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>recv_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>msgSeqNum</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>transactTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>sendingTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>securityID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>px_mantissa</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>px_exponent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>side</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>sz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>numorders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>pxlevel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>endOfEvent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recovery</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="struct_call_back_impl.html#aa35eca9e956be713648393c717a88f4e">CallBackImpl</a>.</p>
 
 </div>
 </div>
@@ -465,7 +573,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac058769c169c6ee7c7ef110fff7e2102" name="ac058769c169c6ee7c7ef110fff7e2102"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac058769c169c6ee7c7ef110fff7e2102">&#9670;&nbsp;</a></span>MDIncrementalRefreshTradeSummary()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac058769c169c6ee7c7ef110fff7e2102">&#9670;&nbsp;</a></span>MDIncrementalRefreshTradeSummary() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,6 +649,110 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="struct_call_back_impl.html#a0cd62c025cdcfd69c94a64b3d5451165">CallBackImpl</a>.</p>
+
+</div>
+</div>
+<a id="abc0b4729452c44beef43d30d3062823e" name="abc0b4729452c44beef43d30d3062823e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc0b4729452c44beef43d30d3062823e">&#9670;&nbsp;</a></span>MDIncrementalRefreshTradeSummary() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void m2tech::mdp3::CallBackIF::MDIncrementalRefreshTradeSummary </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>recv_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>msgSeqNum</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>transactTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>sendingTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>securityID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>px_mantissa</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>px_exponent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>side</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>aggressor_side</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>sz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>numorders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastTrade</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>endofEvent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="struct_call_back_impl.html#a68a9b2d24f01d629fdf45010b34392a3">CallBackImpl</a>.</p>
 
 </div>
 </div>

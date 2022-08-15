@@ -151,6 +151,9 @@ namespace m2tech::mdp3
             uint64_t sendingTime,
             const char *mdEntryType) noexcept = 0;
 
+        // MBP recovery is not implemented
+        // use natural recovery instead
+#ifdef NOTIMPLEMENTED
         virtual void SnapshotFullRefresh(
             uint32_t msgSeqNum,
             uint64_t transactTime,
@@ -162,6 +165,7 @@ namespace m2tech::mdp3
             int8_t px_level,
             int32_t numorders,
             char side) noexcept = 0;
+#endif
 
         virtual void SnapshotFullRefreshOrderBook(
             uint32_t msgSeqNum,

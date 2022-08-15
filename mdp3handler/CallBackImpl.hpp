@@ -151,6 +151,7 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
     {
     }
 
+#ifdef NOTIMPLEMENTED
     virtual void SnapshotFullRefresh(
         uint32_t msgSeqNum,
         uint64_t transactTime,
@@ -164,6 +165,7 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
         char side) noexcept override
     {
     }
+#endif
 
     virtual void SnapshotFullRefreshOrderBook(
         uint32_t msgSeqNum,

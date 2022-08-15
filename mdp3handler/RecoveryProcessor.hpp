@@ -298,6 +298,9 @@ namespace m2tech::mdp3
 
                     if (template_id == 52)
                     {
+                        // MBP recovery is not implemented
+                        // use natural recovery instead
+#ifdef NOTIMPLEMENTED
                         mktdata::SnapshotFullRefresh52 rec;
                         rec.wrapForDecode(databuf, sbe_message_header_size, BlockLength, Version, MsgSize);
 
@@ -339,6 +342,7 @@ namespace m2tech::mdp3
                                 numorders,
                                 side);
                         }
+#endif
                     }
                     else if (template_id == 53)
                     {
