@@ -324,7 +324,7 @@ namespace m2tech::mdp3
         void datarecoveryend(uint32_t last_seq) noexcept
         {
             std::cout << "RECOVERY DONE\n";
-            // TODO: make sure order book recovery code
+            // TODO: make sure order book reconstruction code
             // ignores updates that have transaction time <=
             // last recovery update 
             qseq_num = last_seq;
