@@ -76,7 +76,6 @@ namespace m2tech::mdp3
         std::string group_ir, group_dr, interface;
         CallBackIF *cb;
         std::map<int32_t, std::string> securities;
-        std::set<int32_t> recovered_books;
 
         /**
          * @brief Construct a new Recovery Processor object
@@ -208,6 +207,8 @@ namespace m2tech::mdp3
         uint32_t datarecovery() noexcept
         {
 
+            std::set<int32_t> recovered_books;
+
             if (debug)
                 std::cout << "DataRecoveryStart\n";
 
@@ -216,7 +217,7 @@ namespace m2tech::mdp3
 
             uint curr_seq_num = 0;
             bool found_first_packet = false;
-            uint32_t last_seq_num = 0;
+            uint32_t last_seq_num = std::numeric_limits<uint32_t>::max();
 
             uint32_t numreports = std::numeric_limits<uint32_t>::max();
 
@@ -261,6 +262,7 @@ namespace m2tech::mdp3
                     delete msg;
                     curr_seq_num = 0;
                     found_first_packet = false;
+                    cb->Clear();
                     numreports = std::numeric_limits<uint32_t>::max();
                     goto read_next_packet;
                 }
@@ -395,7 +397,7 @@ namespace m2tech::mdp3
                                 << std::endl;
                         }
 
-                        last_seq_num = std::max(last_seq_num, local_last_seq_no);
+                        last_seq_num = std::min(last_seq_num, local_last_seq_no);
 
                         if (chunks == curr_chunk)
                         {

@@ -57,6 +57,23 @@ namespace m2tech::mdp3
     struct CallBackIF
     {
 
+        /**
+         * @brief for MBP
+         * 
+         * @param recv_time 
+         * @param msgSeqNum 
+         * @param transactTime 
+         * @param sendingTime 
+         * @param securityID 
+         * @param px_mantissa 
+         * @param px_exponent 
+         * @param side 
+         * @param sz 
+         * @param numorders 
+         * @param pxlevel 
+         * @param endOfEvent 
+         * @param recovery 
+         */
         virtual void MDIncrementalRefreshBook(
             uint64_t recv_time, 
             uint32_t msgSeqNum,
@@ -72,6 +89,28 @@ namespace m2tech::mdp3
             bool endOfEvent,
             bool recovery) noexcept = 0;
 
+        /**
+         * @brief for MBO
+         * Note that the order book reconstruction code must ignore updates
+         * that have transaction time <= last recovery transaction time.
+         * It can also optionaly ignore recovery updates if the last transaction
+         * time is greater than recovery updates.
+         * 
+         * @param recv_time 
+         * @param msgSeqNum 
+         * @param transactTime 
+         * @param sendingTime 
+         * @param securityID 
+         * @param px_mantissa 
+         * @param px_exponent 
+         * @param side 
+         * @param displayQty 
+         * @param orderID 
+         * @param orderUpdateAction 
+         * @param priority 
+         * @param endOfEvent 
+         * @param recovery 
+         */
         virtual void MDIncrementalRefreshBook(
             uint64_t recv_time,
             uint32_t msgSeqNum,
@@ -88,6 +127,23 @@ namespace m2tech::mdp3
             bool endOfEvent,
             bool recovery) noexcept = 0;
 
+        /**
+         * @brief for MBP
+         * 
+         * @param recv_time 
+         * @param msgSeqNum 
+         * @param transactTime 
+         * @param sendingTime 
+         * @param securityID 
+         * @param px_mantissa 
+         * @param px_exponent 
+         * @param side 
+         * @param aggressor_side 
+         * @param sz 
+         * @param numorders 
+         * @param lastTrade 
+         * @param endofEvent 
+         */
         virtual void MDIncrementalRefreshTradeSummary(
             uint64_t recv_time, 
             uint32_t msgSeqNum,
@@ -103,6 +159,19 @@ namespace m2tech::mdp3
             bool lastTrade,
             bool endofEvent) noexcept = 0;
 
+        /**
+         * @brief for MBO
+         * 
+         * @param recv_time 
+         * @param msgSeqNum 
+         * @param transactTime 
+         * @param sendingTime 
+         * @param lastQty 
+         * @param orderID 
+         * @param securityID 
+         * @param lastTrade 
+         * @param endofEvent 
+         */
         virtual void MDIncrementalRefreshTradeSummary(
             uint64_t recv_time,
             uint32_t msgSeqNum,
@@ -214,7 +283,8 @@ namespace m2tech::mdp3
 
         /**
          * @brief A call to this function indicates that a gap was detected
-         * 
+         * The book must be cleared. Updates with recovery = true flag
+         * will follow.
          */
         virtual void Clear() noexcept = 0;
 

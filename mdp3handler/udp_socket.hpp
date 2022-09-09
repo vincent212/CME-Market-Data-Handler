@@ -53,6 +53,8 @@ namespace m2tech::mcast
 
    /**
     * @brief Create a multicast socket
+    * Note the bind will fail in cases where more than one multicast group is joined
+    * on the same port. Add appropritate setsock opt to fix this.
     * 
     * @param port multicast port
     * @param sock 
@@ -76,6 +78,7 @@ namespace m2tech::mcast
       addr.sin_addr.s_addr = htonl(INADDR_ANY);
       addr.sin_port = htons(port);
       addrlen = sizeof(addr);
+
       if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
       {
          perror("bind");
