@@ -262,6 +262,7 @@ namespace m2tech::mdp3
                     delete msg;
                     curr_seq_num = 0;
                     found_first_packet = false;
+                    recovered_books.clear();
                     cb->Clear();
                     numreports = std::numeric_limits<uint32_t>::max();
                     goto read_next_packet;
@@ -376,6 +377,7 @@ namespace m2tech::mdp3
                                 delete msg;
                                 curr_seq_num = 0;
                                 found_first_packet = false;
+                                recovered_books.clear();
                                 numreports = std::numeric_limits<uint32_t>::max();
                                 cb->Clear();
                                 goto read_next_packet;
