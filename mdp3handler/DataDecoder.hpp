@@ -270,7 +270,6 @@ namespace m2tech::mdp3
                             SendingTime,
                             last,
                             oid,
-                            securityId,
                             matchevent.lastTradeMsg(),
                             matchevent.endOfEvent());
                     }
@@ -536,8 +535,12 @@ namespace m2tech::mdp3
 
                         cb->MDIncrementalRefreshVolume(
                             MsgSeqNum,
+                            txtim,
                             SendingTime,
-                            txtim, secid, vol, *typ, act);
+                            secid, 
+                            vol, 
+                            *typ, 
+                            act);
                     }
 
                     break;

@@ -110,7 +110,6 @@ struct CallBackImpl : public m2tech::mdp3::CallBackIF
         uint64_t sendingTime,
         int32_t lastQty,
         uint64_t orderID,
-        int32_t securityID,
         bool lastTrade,
         bool eoe) noexcept
     {

@@ -168,7 +168,6 @@ namespace m2tech::mdp3
          * @param sendingTime 
          * @param lastQty 
          * @param orderID 
-         * @param securityID 
          * @param lastTrade 
          * @param endofEvent 
          */
@@ -179,7 +178,6 @@ namespace m2tech::mdp3
             uint64_t sendingTime,
             int32_t lastQty,
             uint64_t orderID,
-            int32_t securityID,
             bool lastTrade,
             bool endofEvent) noexcept = 0;
 
