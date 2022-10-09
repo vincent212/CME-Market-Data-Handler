@@ -65,9 +65,9 @@ namespace m2tech::mdp3
 
         std::mutex m;
         std::condition_variable cv;
-        bool shutdown = false;
+        volatile bool shutdown = false;
         MP *mp;
-        bool recover_instruments = false;
+        volatile bool recover_instruments = false;
         bool debug;
         in_port_t port_ir, port_dr;
         int sock_ir, sock_dr;
@@ -352,17 +352,9 @@ namespace m2tech::mdp3
                         mktdata::SnapshotFullRefreshOrderBook53 rec;
                         rec.wrapForDecode(databuf, sbe_message_header_size, BlockLength, Version, MsgSize);
 
-                        // not sure if try/catch needed
                         if (debug)
                         {
-                            try
-                            {
-                                std::cout << rec << std::endl;
-                            }
-                            catch (...)
-                            {
-                                std::cout << "EXCEPTION PRINTING SnapshotFullRefreshOrderBook53\n";
-                            }
+                            std::cout << rec << std::endl;
                         }
 
                         auto tmp_numreports = rec.totNumReports();

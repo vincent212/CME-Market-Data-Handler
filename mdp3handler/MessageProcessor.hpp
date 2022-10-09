@@ -70,7 +70,7 @@ namespace m2tech::mdp3
         bool have_instruments = false;
         bool recoveryonstart = false;
         uint32_t qseq_num = 0;
-        bool shutdown = false;
+        volatile bool shutdown = false;
 
         /**
          * @brief Read from channel A
