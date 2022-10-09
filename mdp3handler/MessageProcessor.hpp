@@ -78,6 +78,7 @@ namespace m2tech::mdp3
          * @param seq_num 
          * @return message_buffer* 
          */
+        [[nodiscard]]
         message_buffer *read_a(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
@@ -99,6 +100,7 @@ namespace m2tech::mdp3
          * @param seq_num 
          * @return message_buffer* 
          */
+        [[nodiscard]]
         message_buffer *read_b(uint32_t &seq_num) const noexcept
         {
             auto m = new message_buffer();
