@@ -22,8 +22,4 @@ In particular please see:
 http://maye.ski/index.php/2022/08/10/open-source-cme-market-data-handler/
 http://maye.ski/index.php/2022/09/10/using-transaction-time-in-cme-gap-recovery/
 
-Wish List:
-Better A/B socket arbitration
-Queueing of messages to prevent packet loss
-
 Feel free to get in touch!
