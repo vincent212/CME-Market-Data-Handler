@@ -164,6 +164,7 @@ namespace m2tech::mdp3
          *
          * @return message_buffer*
          */
+        [[nodiscard]]
         message_buffer *read_dr() const noexcept
         {
             auto m = new message_buffer();
@@ -184,6 +185,7 @@ namespace m2tech::mdp3
          *
          * @return message_buffer*
          */
+        [[nodiscard]]
         message_buffer *read_ir() const noexcept
         {
             auto m = new message_buffer();
