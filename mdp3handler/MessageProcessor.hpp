@@ -198,12 +198,9 @@ namespace m2tech::mdp3
             bool have_msg = false;
 
             //
-            // timestamp here if you want to include socket read time
-            //
-            // auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-
-            //
-            // TODO: reading A then B is not ideal
+            // TODO: Reading A then B is not ideal but should be ok.
+            // One possibility is to use epoll.
+            // I took this approach for clarity.
             //
 
             //
@@ -228,6 +225,13 @@ namespace m2tech::mdp3
                     break;
             }
 
+            if (have_msg)
+            {
+                auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+                processq(recv_ts);
+                have_msg = false;
+            }
+
             while (true)
             {
                 msg = read_b(seq);
@@ -246,14 +250,11 @@ namespace m2tech::mdp3
                     break;
             }
 
-            //
-            // time stamp here to measure just the decode time
-            //
-
-            auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-
             if (have_msg)
+            {
+                auto recv_ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
                 processq(recv_ts);
+            }
         }
 
         /**
