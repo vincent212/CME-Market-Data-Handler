@@ -198,8 +198,7 @@ namespace m2tech::mdp3
             bool have_msg = false;
 
             //
-            // TODO: Reading A then B is not ideal but should be ok.
-            // One possibility is to use epoll.
+            // TODO: Reading A then B is not ideal but may be ok.
             // I took this approach for clarity.
             //
 
