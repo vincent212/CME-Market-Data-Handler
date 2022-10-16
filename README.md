@@ -21,5 +21,3 @@ http://maye.ski/
 In particular please see:
 http://maye.ski/index.php/2022/08/10/open-source-cme-market-data-handler/
 http://maye.ski/index.php/2022/09/10/using-transaction-time-in-cme-gap-recovery/
-
-Feel free to get in touch!
