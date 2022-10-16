@@ -1,9 +1,6 @@
 # CME-Market-Data-Handler
 A minimalist CME MDP 3.0 C++ market data feed handler implementing all required features
-needed to certify on CME AutoCert.
-
-This project contains code for a minimalist feed handler for the CME MDP3 protocol.
-It is tested on futures but with minor modifications will work for
+needed to certify on CME AutoCert. It is tested on futures but with minor modifications will work for
 spreads, options, BTEC, and EBS.
 
 Copyright 2022 Vincent Maciejewski, Quant Enterprises & M2 Tech
