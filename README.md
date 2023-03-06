@@ -17,4 +17,4 @@ In particular please see:
 http://maye.ski/index.php/2022/08/10/open-source-cme-market-data-handler/
 http://maye.ski/index.php/2022/09/10/using-transaction-time-in-cme-gap-recovery/
 
-Latency frmom moment a packet is received to moment application callback is invoked is under 1 micro second.
+Latency fmom moment a packet is received to moment application callback is invoked is under 1 micro second.
