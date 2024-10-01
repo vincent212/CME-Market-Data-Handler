@@ -50,6 +50,17 @@ https://opensource.org/licenses/MIT
  */
 int main(int argc, char *argv[])
 {
+  bool use_pcap = false;
+  std::string pcap_filename;
+
+  // Parse command-line arguments
+  for (int i = 1; i < argc; i++) {
+    std::string arg = argv[i];
+    if (arg == "-p" && i + 1 < argc) {
+      use_pcap = true;
+      pcap_filename = argv[++i];
+    }
+  }
 
   CallBackImpl callback_impl;
 
@@ -72,7 +83,9 @@ int main(int argc, char *argv[])
       mdinterface,
       true,
       true,
-      true);
+      true,
+      use_pcap,
+      pcap_filename);
 
   m2tech::mdp3::RecoveryProcessor<m2tech::mdp3::MessageProcessor> rec_proc(
       &msg_proc,
@@ -84,12 +97,16 @@ int main(int argc, char *argv[])
       mdinterface,
       true);
 
-  msg_proc.set_recovery_processor(&rec_proc);
-  msg_proc.connect();
+  if (use_pcap) {
+    msg_proc.process_pcap_file();
+  } else {
+    msg_proc.set_recovery_processor(&rec_proc);
+    msg_proc.connect();
 
-  std::thread msg_thread(std::ref(msg_proc));
-  std::thread rec_thread(std::ref(rec_proc));
+    std::thread msg_thread(std::ref(msg_proc));
+    std::thread rec_thread(std::ref(rec_proc));
 
-  msg_thread.join();
-  rec_thread.join();
+    msg_thread.join();
+    rec_thread.join();
+  }
 }
