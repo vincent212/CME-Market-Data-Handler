@@ -35,9 +35,9 @@ https://opensource.org/licenses/MIT
 
 */
 
+#include "CallBackImpl.hpp"
 #include "MessageProcessor.hpp"
 #include "RecoveryProcessor.hpp"
-#include "CallBackImpl.hpp"
 
 #include <thread>
 
@@ -54,9 +54,11 @@ int main(int argc, char *argv[])
   std::string pcap_filename;
 
   // Parse command-line arguments
-  for (int i = 1; i < argc; i++) {
+  for (int i = 1; i < argc; i++)
+  {
     std::string arg = argv[i];
-    if (arg == "-p" && i + 1 < argc) {
+    if (arg == "-p" && i + 1 < argc)
+    {
       use_pcap = true;
       pcap_filename = argv[++i];
     }
@@ -97,9 +99,12 @@ int main(int argc, char *argv[])
       mdinterface,
       true);
 
-  if (use_pcap) {
+  if (use_pcap)
+  {
     msg_proc.process_pcap_file();
-  } else {
+  }
+  else
+  {
     msg_proc.set_recovery_processor(&rec_proc);
     msg_proc.connect();
 
