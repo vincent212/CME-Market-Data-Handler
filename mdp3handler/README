@@ -4,3 +4,10 @@ compile using this command:
 
 g++ main.cpp -O0 -g -pthread -o test
 
+Note: the program will only run with multicast data if your machine is colocated.
+
+To run the program locally with a pcap file:
+- Install libpcap: `sudo apt-get install libpcap-dev`
+- Compile with PCAP flag: `g++ -DUSE_PCAP=true main.cpp -O0 -g -pthread -lpcap -o test`
+- Run: `./test <pcap_filename>`
+

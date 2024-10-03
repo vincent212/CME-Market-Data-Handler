@@ -44,7 +44,10 @@ https://opensource.org/licenses/MIT
 #include "DataDecoder.hpp"
 #include "RecoveryProcessor.hpp"
 #include "CallBackIF.hpp"
+
+#ifdef USE_PCAP
 #include <pcap.h>
+#endif
 
 namespace m2tech::mdp3
 {
@@ -71,7 +74,6 @@ namespace m2tech::mdp3
         bool recoveryonstart = false;
         uint32_t qseq_num = 0;
         volatile bool shutdown = false;
-        bool use_pcap = false;
         std::string pcap_filename;
 
         /**
@@ -130,7 +132,6 @@ namespace m2tech::mdp3
          * @param _dorecovery whether to do data recover on gaps
          * @param _recoveryonstart whether to trigger recover on join
          * @param _debug 
-         * @param _use_pcap whether to read market data from pcap file
          * @param _pcap_filename 
          */
         MessageProcessor(
@@ -143,7 +144,6 @@ namespace m2tech::mdp3
             bool _dorecovery,
             bool _recoveryonstart,
             bool _debug,
-            bool _use_pcap,
             const std::string& _pcap_filename)
             : decoder(_cb, _debug),
               port_a(_port_a),
@@ -153,7 +153,6 @@ namespace m2tech::mdp3
               interface(_interface),
               dorecovery(_dorecovery),
               recoveryonstart(_recoveryonstart),
-              use_pcap(_use_pcap),
               pcap_filename(_pcap_filename)
         {
         }
@@ -193,6 +192,7 @@ namespace m2tech::mdp3
                 read_sockets();
         }
 
+        #ifdef USE_PCAP
         /**
          * @brief Read packets from pcap file
          */
@@ -249,11 +249,13 @@ namespace m2tech::mdp3
 
             auto ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 
+            // Assumes your pcap file has no missing packets, therefore no need to do recovery. Bypasses the processq() call.
             decoder.mbo_data(&msg->message[0], msg->len, ts);
 
             delete msg;
         }
-
+        #endif
+        
         /**
          * @brief Read multicast data from channels A and B
          * Messagges are added to message queue then a call to processq() is made
