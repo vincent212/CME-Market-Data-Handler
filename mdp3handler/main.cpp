@@ -35,9 +35,9 @@ https://opensource.org/licenses/MIT
 
 */
 
+#include "CallBackImpl.hpp"
 #include "MessageProcessor.hpp"
 #include "RecoveryProcessor.hpp"
-#include "CallBackImpl.hpp"
 
 #include <thread>
 
@@ -50,6 +50,17 @@ https://opensource.org/licenses/MIT
  */
 int main(int argc, char *argv[])
 {
+  std::string pcap_filename;
+
+  #ifdef USE_PCAP
+  if (argc < 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " <pcap_filename>" << std::endl;
+    return 1;
+  }
+  
+  pcap_filename = argv[1];
+  #endif
 
   CallBackImpl callback_impl;
 
@@ -72,7 +83,8 @@ int main(int argc, char *argv[])
       mdinterface,
       true,
       true,
-      true);
+      true,
+      pcap_filename);
 
   m2tech::mdp3::RecoveryProcessor<m2tech::mdp3::MessageProcessor> rec_proc(
       &msg_proc,
@@ -83,6 +95,11 @@ int main(int argc, char *argv[])
       group_ir,
       mdinterface,
       true);
+
+  #ifdef USE_PCAP
+  msg_proc.process_pcap_file();
+  return 0;
+  #endif
 
   msg_proc.set_recovery_processor(&rec_proc);
   msg_proc.connect();

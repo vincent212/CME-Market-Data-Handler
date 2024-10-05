@@ -45,6 +45,10 @@ https://opensource.org/licenses/MIT
 #include "RecoveryProcessor.hpp"
 #include "CallBackIF.hpp"
 
+#ifdef USE_PCAP
+#include <pcap.h>
+#endif
+
 namespace m2tech::mdp3
 {
 
@@ -70,6 +74,7 @@ namespace m2tech::mdp3
         bool recoveryonstart = false;
         uint32_t qseq_num = 0;
         volatile bool shutdown = false;
+        std::string pcap_filename;
 
         /**
          * @brief Read from channel A
@@ -127,6 +132,7 @@ namespace m2tech::mdp3
          * @param _dorecovery whether to do data recover on gaps
          * @param _recoveryonstart whether to trigger recover on join
          * @param _debug 
+         * @param _pcap_filename 
          */
         MessageProcessor(
             CallBackIF *_cb,
@@ -137,7 +143,8 @@ namespace m2tech::mdp3
             const char *_interface,
             bool _dorecovery,
             bool _recoveryonstart,
-            bool _debug)
+            bool _debug,
+            const std::string& _pcap_filename)
             : decoder(_cb, _debug),
               port_a(_port_a),
               port_b(_port_b),
@@ -145,7 +152,8 @@ namespace m2tech::mdp3
               group_b(_groupb),
               interface(_interface),
               dorecovery(_dorecovery),
-              recoveryonstart(_recoveryonstart)
+              recoveryonstart(_recoveryonstart),
+              pcap_filename(_pcap_filename)
         {
         }
 
@@ -184,6 +192,70 @@ namespace m2tech::mdp3
                 read_sockets();
         }
 
+        #ifdef USE_PCAP
+        /**
+         * @brief Read packets from pcap file
+         */
+        void process_pcap_file() noexcept
+        {
+            pcap_t *handle;
+            char errbuf[PCAP_ERRBUF_SIZE];
+            struct pcap_pkthdr header;
+            const u_char *packet;
+
+            handle = pcap_open_offline(pcap_filename.c_str(), errbuf);
+            if (!handle)
+            {
+                std::cerr << "Couldn't open pcap file " << pcap_filename << ": " << errbuf << std::endl;
+                return;
+            }
+
+            while (packet = pcap_next(handle, &header))
+            {
+                process_pcap_packet(packet, header.len);
+            }
+
+            pcap_close(handle);
+        }
+
+        /**
+         * @brief Process a packet from pcap file
+         *
+         * @param packet
+         * @param len
+        */
+        void process_pcap_packet(const u_char *packet, int len)
+        {
+            // Skip Ethernet header
+            packet += 14;
+            len -= 14;
+
+            // Skip IP header
+            int ip_header_len = (*packet & 0x0F) * 4;
+            packet += ip_header_len;
+            len -= ip_header_len;
+
+            // Skip UDP header
+            packet += 8;
+            len -= 8;
+
+            auto seq_num = *(unsigned int *)(&packet[0]);
+
+            // Now we have the MDP3 message
+            auto msg = new message_buffer();
+            msg->len = len;
+            memcpy(msg->message.data(), packet, len);
+            msg->seqnum = seq_num;
+
+            auto ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+            // Assumes your pcap file has no missing packets, therefore no need to do recovery. Bypasses the processq() call.
+            decoder.mbo_data(&msg->message[0], msg->len, ts);
+
+            delete msg;
+        }
+        #endif
+        
         /**
          * @brief Read multicast data from channels A and B
          * Messagges are added to message queue then a call to processq() is made
