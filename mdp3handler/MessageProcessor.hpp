@@ -143,8 +143,7 @@ namespace m2tech::mdp3
             const char *_interface,
             bool _dorecovery,
             bool _recoveryonstart,
-            bool _debug,
-            const std::string& _pcap_filename)
+            bool _debug)
             : decoder(_cb, _debug),
               port_a(_port_a),
               port_b(_port_b),
@@ -152,8 +151,20 @@ namespace m2tech::mdp3
               group_b(_groupb),
               interface(_interface),
               dorecovery(_dorecovery),
-              recoveryonstart(_recoveryonstart),
-              pcap_filename(_pcap_filename)
+              recoveryonstart(_recoveryonstart) 
+        {
+        }
+
+        /**
+         * @brief Construct a new Message Processor object from a pcap file
+         * 
+         * @param _cb application object that implements call back behavior
+         * @param _debug
+         * @param _pcap_filename
+        */
+        MessageProcessor(CallBackIF *_cb,
+                         bool _debug, const std::string &_pcap_filename) : decoder(_cb, _debug),
+                                                                           pcap_filename(_pcap_filename)
         {
         }
 

@@ -43,26 +43,36 @@ https://opensource.org/licenses/MIT
 
 /**
  * @brief Example program of how to instantiate and run the handler.
- * 
- * @param argc 
- * @param argv 
- * @return int 
+ *
+ * @param argc
+ * @param argv
+ * @return int
  */
 int main(int argc, char *argv[])
 {
+
+  CallBackImpl callback_impl;
+
+#ifdef USE_PCAP
+
   std::string pcap_filename;
 
-  #ifdef USE_PCAP
   if (argc < 2)
   {
     std::cerr << "Usage: " << argv[0] << " <pcap_filename>" << std::endl;
     return 1;
   }
-  
-  pcap_filename = argv[1];
-  #endif
 
-  CallBackImpl callback_impl;
+  pcap_filename = argv[1];
+
+  m2tech::mdp3::MessageProcessor msg_proc(
+      &callback_impl,
+      true, // debug
+      pcap_filename);
+
+  msg_proc.process_pcap_file();
+
+#else
 
   constexpr auto group_a = "233.158.8.17";
   constexpr auto port_a = 14344;
@@ -83,8 +93,7 @@ int main(int argc, char *argv[])
       mdinterface,
       true,
       true,
-      true,
-      pcap_filename);
+      true);
 
   m2tech::mdp3::RecoveryProcessor<m2tech::mdp3::MessageProcessor> rec_proc(
       &msg_proc,
@@ -96,11 +105,6 @@ int main(int argc, char *argv[])
       mdinterface,
       true);
 
-  #ifdef USE_PCAP
-  msg_proc.process_pcap_file();
-  return 0;
-  #endif
-
   msg_proc.set_recovery_processor(&rec_proc);
   msg_proc.connect();
 
@@ -109,4 +113,6 @@ int main(int argc, char *argv[])
 
   msg_thread.join();
   rec_thread.join();
+
+#endif
 }
