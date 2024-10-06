@@ -100,9 +100,9 @@ namespace m2tech::mdp3
          * 
          * @param databuf binary data
          * @param len length
-         * @param ts timestamp
+         * @param ts timestamp, defaults to 0 in case of pcap file
          */
-        void mbo_data(char *databuf, size_t len, uint64_t ts)
+        void mbo_data(char *databuf, size_t len, uint64_t ts = 0)
         {
             auto data_start = databuf;
 

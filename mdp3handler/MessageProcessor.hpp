@@ -258,10 +258,8 @@ namespace m2tech::mdp3
             memcpy(msg->message.data(), packet, len);
             msg->seqnum = seq_num;
 
-            auto ts = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-
             // Assumes your pcap file has no missing packets, therefore no need to do recovery. Bypasses the processq() call.
-            decoder.mbo_data(&msg->message[0], msg->len, ts);
+            decoder.mbo_data(&msg->message[0], msg->len);
 
             delete msg;
         }
