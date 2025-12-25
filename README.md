@@ -3,6 +3,8 @@ A minimalist CME MDP3.0 C++ market data feed handler (and pcap file reader) impl
 needed to certify on CME AutoCert. It is tested/certified on futures but with minor modifications will work for
 spreads, options, BTEC, and EBS.
 
+For the full project documentation and blog post, see: https://m2te.ch/blog/opensource/cme-mdp3
+
 The code read MDP3 data from pcap files as well when compiled with USE_PCAP flag.
 
 Copyright 2022 Vincent Maciejewski, Quant Enterprises & M2 Tech
